@@ -7,14 +7,13 @@ import theme from '@/styles/theme'
 import { AppPropsWithLayout } from '@/types/layout'
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
-  // use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page)
   const queryClient = new QueryClient()
 
   return (
     <>
       <Head>
-        <title>next-zustand-joyui-boilerplate</title>
+        <title>UniFun</title>
       </Head>
       <StyledEngineProvider injectFirst>
         <CssVarsProvider theme={theme} defaultMode='system'>
