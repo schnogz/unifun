@@ -7,11 +7,9 @@ import Typography from '@mui/joy/Typography'
 
 import { ColorSchemeToggle } from '@/components/ColorSchemeToggle'
 import TwoColumnLayout from '@/layouts/TwoColumn'
-import { useContentState } from '@/store/useStore'
 import { NextPageWithLayout } from '@/types/layout'
 
 const HomePage: NextPageWithLayout = () => {
-  const { title } = useContentState()
   return (
     <>
       <ColorSchemeToggle />
@@ -19,7 +17,7 @@ const HomePage: NextPageWithLayout = () => {
         The boilerplate to build fast
       </Typography>
       <Typography level='h1' fontWeight='xl' fontSize='clamp(1.875rem, 1.3636rem + 2.1818vw, 3rem)'>
-        {title}
+        UniFun
       </Typography>
       <Typography fontSize='lg' textColor='text.secondary' lineHeight='lg'>
         The form does not work and the following information is not necessarily true!
