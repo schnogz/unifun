@@ -16,7 +16,7 @@ const withWalletGuard = <P extends object>(WrappedComponent: ComponentType<P>): 
       if (account?.status === 'disconnected') {
         router.push('/connectWallet')
       }
-    }, [account])
+    }, [account, router])
 
     // if we are connected, return route component
     if (account?.status === 'connected') {
