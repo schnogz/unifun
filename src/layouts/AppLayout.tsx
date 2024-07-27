@@ -7,8 +7,9 @@ import { PropsWithChildren } from 'react'
 import ColorSchemeToggle from '@/components/ColorSchemeToggle'
 import Header from '@/components/Header'
 import Sidebar from '@/components/Sidebar'
+import { withWalletGuard } from '@/hocs/withWalletGuard'
 
-export default function AppLayout({ children }: PropsWithChildren) {
+export const AppLayout = withWalletGuard(({ children }: PropsWithChildren) => {
   const { pathname } = useRouter()
 
   // this is gross :)
@@ -85,4 +86,4 @@ export default function AppLayout({ children }: PropsWithChildren) {
       </Box>
     </Box>
   )
-}
+})

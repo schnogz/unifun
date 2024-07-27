@@ -1,19 +1,10 @@
-import { ConnectButton } from '@rainbow-me/rainbowkit'
+import { Typography } from '@mui/joy'
 
-import AppLayout from '@/layouts/AppLayout'
+import { AppLayout } from '@/layouts/AppLayout'
 import { NextPageWithLayout } from '@/types/layout'
 
 const HomePage: NextPageWithLayout = () => {
-  return (
-    <>
-      <ConnectButton
-        label='Connect Wallet'
-        accountStatus='address'
-        chainStatus='name'
-        showBalance
-      />
-    </>
-  )
+  return <Typography>Home</Typography>
 }
 
 HomePage.getLayout = (page) => <AppLayout>{page}</AppLayout>

@@ -2,36 +2,50 @@ import {
   CollectionsRounded,
   HomeRounded,
   TravelExploreRounded,
-  LogoutRounded,
+  PowerSettingsNewRounded,
 } from '@mui/icons-material'
 import {
   Avatar,
   Box,
-  Divider,
   GlobalStyles,
-  IconButton,
   Sheet,
   Typography,
   ListItemContent,
   ListItemButton,
   listItemButtonClasses,
   ListItem,
+  IconButton,
   List,
 } from '@mui/joy'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { normalize } from 'viem/ens'
+import { useAccount, useBalance, useEnsName, useEnsAvatar, useDisconnect } from 'wagmi'
+import { mainnet } from 'wagmi/chains'
 
+import { truncateAddress } from '@/utils/address'
 import { closeSidebar } from '@/utils/sidebar'
 
 export default function Sidebar() {
   const { pathname: currentPathname } = useRouter()
+  const { address } = useAccount()
+  const { disconnect } = useDisconnect()
+
+  const { data: balanceData } = useBalance({
+    address,
+  })
+  const { data: ensName } = useEnsName({
+    address: address,
+    chainId: mainnet.id,
+  })
+  const { data: ensAvatar } = useEnsAvatar({
+    name: normalize(ensName ?? ''),
+  })
 
   return (
     <Sheet
       className='Sidebar'
       sx={{
-        // borderColor: 'divider',
-        // borderRight: '1px solid',
         display: 'flex',
         flexDirection: 'column',
         flexShrink: 0,
@@ -52,9 +66,9 @@ export default function Sidebar() {
       <GlobalStyles
         styles={(theme) => ({
           ':root': {
-            '--Sidebar-width': '275px',
+            '--Sidebar-width': '250px',
             [theme.breakpoints.up('lg')]: {
-              '--Sidebar-width': '275px',
+              '--Sidebar-width': '250px',
             },
           },
         })}
@@ -138,19 +152,24 @@ export default function Sidebar() {
           </ListItem>
         </List>
       </Box>
-      <Divider />
+
       <Box sx={{ alignItems: 'center', display: 'flex', gap: 1 }}>
-        <Avatar
-          variant='outlined'
-          size='sm'
-          src='https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286'
-        />
+        {ensAvatar && (
+          <Avatar
+            alt={`${ensName} avatar`}
+            variant='outlined'
+            size='md'
+            src={ensAvatar as string}
+          />
+        )}
         <Box sx={{ flex: 1, minWidth: 0 }}>
-          <Typography level='title-sm'>Wallet</Typography>
-          <Typography level='body-xs'>0x123asdb</Typography>
+          <Typography level='title-sm'>{ensName ?? truncateAddress(address)}</Typography>
+          <Typography level='body-xs'>
+            {balanceData?.formatted} {balanceData?.symbol}
+          </Typography>
         </Box>
-        <IconButton size='sm' variant='plain' color='neutral'>
-          <LogoutRounded />
+        <IconButton size='md' color='danger' variant='solid' onClick={() => disconnect()}>
+          <PowerSettingsNewRounded />
         </IconButton>
       </Box>
     </Sheet>

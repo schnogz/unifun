@@ -48,6 +48,7 @@ module.exports = {
           ['/^next/', 'module'],
           [
             '/^@/components/',
+            '/^@/hocs/',
             '/^@/layouts/',
             '/^@/pages/',
             '/^@/providers/',

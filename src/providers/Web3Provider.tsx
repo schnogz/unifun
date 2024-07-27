@@ -15,7 +15,7 @@ const chainConfig = getDefaultConfig({
   appName: 'UniFun',
   chains: [sepolia],
   projectId: '148211771de67c5fdb57e38a4d3775dd',
-  ssr: false,
+  ssr: true,
   transports: {
     [sepolia.id]: http('https://eth-sepolia.g.alchemy.com/v2/rJNTRaejmgHGpKPcDiRjhY2yWeySBMSl'),
   },
