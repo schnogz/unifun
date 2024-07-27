@@ -30,6 +30,10 @@ export default extendTheme({
     },
     light: {
       palette: {
+        background: {
+          body: 'var(--joy-palette-common-white)',
+          surface: 'var(--joy-palette-neutral-100)',
+        },
         primary: {
           50: '#fce4ec',
           100: '#f8bbd0',

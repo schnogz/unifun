@@ -163,8 +163,8 @@ export default function Sidebar() {
           />
         )}
         <Box sx={{ flex: 1, minWidth: 0 }}>
-          <Typography level='title-sm'>{ensName ?? truncateAddress(address)}</Typography>
-          <Typography level='body-xs'>
+          <Typography level='title-md'>{ensName ?? truncateAddress(address)}</Typography>
+          <Typography level='body-sm'>
             {balanceData?.formatted} {balanceData?.symbol}
           </Typography>
         </Box>
