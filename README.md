@@ -1,27 +1,24 @@
-# UniFun
+# UniFun App
 
-## Demo
-[https://next-zustand-joyui-boilerplate.vercel.app/](https://next-zustand-joyui-boilerplate.vercel.app/)
+## Live Demo
+[https://unifun.vercel.app/](https://unifun.vercel.app/)
 
 ## Getting Started
 
-First, run the development server:
+1. Install dependencies
+```bash
+npm install
+# or
+yarn
+```
+
+2. Start the development server
 
 ```bash
 npm run dev
 # or
 yarn dev
 ```
+3. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/pages/index.tsx`. The page auto-updates as you edit the file.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+HMR is enabled, so editing any file will cause the page to auto-update.
