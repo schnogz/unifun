@@ -10,7 +10,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <>
       <Head>
-        <title>UniFun App</title>
+        <title>🎉 UniFun</title>
       </Head>
       <StyleProvider>
         <Web3Provider>{getLayout(<Component {...pageProps} />)}</Web3Provider>

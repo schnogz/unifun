@@ -93,7 +93,7 @@ export default function Sidebar() {
         onClick={() => closeSidebar()}
       />
       <Box sx={{ alignItems: 'center', display: 'flex', gap: 1 }}>
-        <Typography level='title-lg'>🎉&nbsp;&nbsp;UniFun App</Typography>
+        <Typography level='title-lg'>🎉&nbsp;&nbsp;UniFun</Typography>
       </Box>
 
       <Box
