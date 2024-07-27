@@ -1,6 +1,7 @@
 import { inputClasses } from '@mui/joy/Input'
 import { extendTheme } from '@mui/joy/styles'
 
+/* eslint-disable sort-keys, sort-keys-fix/sort-keys-fix */
 export default extendTheme({
   colorSchemes: {
     dark: {
@@ -10,16 +11,16 @@ export default extendTheme({
           surface: 'var(--joy-palette-neutral-900)',
         },
         primary: {
-          100: '#0A318C',
-          200: '#1347CC',
-          300: '#1055EA',
-          400: '#357AEA',
-          50: '#1D223F',
-          500: '#2E88F6',
-          600: '#50A1FF',
-          700: '#7AB7FF',
-          800: '#DCEBFE',
-          900: '#F0F6FF',
+          50: '#880e4f',
+          100: '#ad1457',
+          200: '#c2185b',
+          300: '#d81b60',
+          400: '#e91e63',
+          500: '#ec407a',
+          600: '#f06292',
+          700: '#f48fb1',
+          800: '#f8bbd0',
+          900: '#fce4ec',
           solidActiveBg: 'var(--joy-palette-primary-400)',
           solidBg: 'var(--joy-palette-primary-700)',
           solidColor: 'var(--joy-palette-common-black)',
@@ -30,16 +31,16 @@ export default extendTheme({
     light: {
       palette: {
         primary: {
-          100: '#DCEBFE',
-          200: '#BDDAFE',
-          300: '#91C3FC',
-          400: '#60A5FA',
-          50: '#F2F7FF',
-          500: '#3479E8',
-          600: '#2362EA',
-          700: '#1D4FD7',
-          800: '#1D3FAE',
-          900: '#1E3B8A',
+          50: '#fce4ec',
+          100: '#f8bbd0',
+          200: '#f48fb1',
+          300: '#f06292',
+          400: '#ec407a',
+          500: '#e91e63',
+          600: '#d81b60',
+          700: '#c2185b',
+          800: '#ad1457',
+          900: '#880e4f',
           solidActiveBg: 'var(--joy-palette-primary-400)',
           solidBg: 'var(--joy-palette-primary-600)',
           solidHoverBg: 'var(--joy-palette-primary-500)',
