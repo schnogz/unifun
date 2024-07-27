@@ -1,6 +1,7 @@
 import Head from 'next/head'
 
-import { AppProvider } from '@/providers/app'
+import { StyleProvider } from '@/providers/StyleProvider'
+import { Web3Provider } from '@/providers/Web3Provider'
 import { AppPropsWithLayout } from '@/types/layout'
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
@@ -9,9 +10,11 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <>
       <Head>
-        <title>UniFun</title>
+        <title>UniFun App</title>
       </Head>
-      <AppProvider>{getLayout(<Component {...pageProps} />)}</AppProvider>
+      <StyleProvider>
+        <Web3Provider>{getLayout(<Component {...pageProps} />)}</Web3Provider>
+      </StyleProvider>
     </>
   )
 }

@@ -53,6 +53,7 @@ module.exports = {
             '/^@/providers/',
             '/^@/styles/',
             '/^@/types/',
+            '/^@/utils/',
           ],
           ['parent', 'sibling', 'index'],
         ],
