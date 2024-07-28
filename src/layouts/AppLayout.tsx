@@ -37,17 +37,23 @@ export const AppLayout = withWalletGuard(({ children }: PropsWithChildren) => {
           flexDirection: 'column',
           gap: 1,
           height: '100dvh',
-          minWidth: 0,
           pb: { md: 3, sm: 2, xs: 2 },
           pt: {
-            md: 3,
+            md: 1,
             sm: 'calc(12px + var(--Header-height))',
             xs: 'calc(12px + var(--Header-height))',
           },
           px: { md: 6, xs: 2 },
         }}
       >
-        <Box sx={{ alignItems: 'center', display: 'flex' }}>
+        <Box
+          sx={{
+            alignItems: 'center',
+            display: 'flex',
+            justifyContent: 'space-between',
+            pb: 2,
+          }}
+        >
           <Breadcrumbs
             size='sm'
             aria-label='breadcrumbs'
@@ -71,7 +77,7 @@ export const AppLayout = withWalletGuard(({ children }: PropsWithChildren) => {
               {pageTitle}
             </Typography>
           </Breadcrumbs>
-          <ColorSchemeToggle sx={{ ml: 'auto' }} />
+          <ColorSchemeToggle />
         </Box>
         <Box
           sx={{

@@ -1,5 +1,5 @@
 import { LocalFireDepartmentRounded, SendRounded } from '@mui/icons-material'
-import { AspectRatio, Box, Card, CardCover, Chip, IconButton, Link, Typography } from '@mui/joy'
+import { AspectRatio, Box, Card, CardCover, Chip, Button, Typography } from '@mui/joy'
 
 export type NftProps = {
   amount: string
@@ -25,22 +25,25 @@ export type NftProps = {
 
 export default function Nft(props: NftProps) {
   const metadata = JSON.parse(props.metadata) as {
-    attributes: Array<string>
+    attributes: Array<{ trait_type: string; value: string }>
     description: string
     image: string
     name: string
   }
 
+  const onBurnNft = () => window.alert('burn')
+  const onTransferNft = () => window.alert('transfer')
+
   return (
     <Card
-      variant='plain'
       sx={{
         p: 2,
         width: 300,
       }}
     >
+      {/* Card Header */}
       <Box sx={{ alignItems: 'center', display: 'flex', gap: 1, justifyContent: 'space-between' }}>
-        <Typography sx={{ fontSize: 'sm', fontWeight: 'md' }}>
+        <Typography sx={{ fontSize: 'md', fontWeight: 'md' }}>
           {props.name} #{props.token_id}
         </Typography>
         <Chip
@@ -55,34 +58,9 @@ export default function Nft(props: NftProps) {
         >
           {props.contract_type}
         </Chip>
-        {/*<Link*/}
-        {/*  href='#dribbble-shot'*/}
-        {/*  level='body-xs'*/}
-        {/*  underline='none'*/}
-        {/*  startDecorator={<FavoriteRounded />}*/}
-        {/*  sx={{*/}
-        {/*    '&:hover': { color: 'danger.plainColor' },*/}
-        {/*    color: 'text.secondary',*/}
-        {/*    fontWeight: 'md',*/}
-        {/*    ml: 'auto',*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  117*/}
-        {/*</Link>*/}
-        {/*<Link*/}
-        {/*  href='#dribbble-shot'*/}
-        {/*  level='body-xs'*/}
-        {/*  underline='none'*/}
-        {/*  startDecorator={<VisibilityRounded />}*/}
-        {/*  sx={{*/}
-        {/*    '&:hover': { color: 'primary.plainColor' },*/}
-        {/*    color: 'text.secondary',*/}
-        {/*    fontWeight: 'md',*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  10.4k*/}
-        {/*</Link>*/}
       </Box>
+
+      {/* Card Body & Overlay */}
       <Box sx={{ position: 'relative' }}>
         <AspectRatio objectFit='scale-down' minHeight={275}>
           <figure>
@@ -110,38 +88,53 @@ export default function Nft(props: NftProps) {
                 display: 'flex',
                 flexGrow: 1,
                 gap: 1.5,
+                justifyContent: 'space-evenly',
                 p: 2,
               }}
             >
-              <Typography level='h2' noWrap sx={{ fontSize: 'lg' }}>
-                <Link
-                  href='#dribbble-shot'
-                  overlay
-                  underline='none'
-                  sx={{
-                    color: '#fff',
-                    display: 'block',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                  }}
-                >
-                  #{props.token_id}
-                </Link>
-              </Typography>
-              <IconButton
-                size='sm'
-                variant='solid'
-                color='danger'
-                sx={{ backgroundColor: 'rgba(0 0 0 / 0.2)', ml: 'auto' }}
-              >
-                <LocalFireDepartmentRounded />
-              </IconButton>
-              <IconButton size='sm' variant='solid' sx={{ backgroundColor: 'rgba(0 0 0 / 0.2)' }}>
-                <SendRounded />
-              </IconButton>
+              <Button startDecorator={<LocalFireDepartmentRounded />} onClick={onBurnNft}>
+                Burn
+              </Button>
+              <Button startDecorator={<SendRounded />} onClick={onTransferNft}>
+                Transfer
+              </Button>
             </Box>
           </div>
         </CardCover>
+      </Box>
+
+      {/* Card Footer */}
+      <Box sx={{ alignItems: 'flex-start', display: 'flex', flexDirection: 'column' }}>
+        <Box>
+          <Typography sx={{ fontSize: 'md', fontWeight: 'md' }}>Description</Typography>
+          <Chip
+            variant='outlined'
+            color='neutral'
+            size='sm'
+            sx={{
+              borderRadius: 'sm',
+              px: 0.5,
+              py: 0.25,
+            }}
+          >
+            {metadata.description}
+          </Chip>
+        </Box>
+        <Box>
+          <Typography sx={{ fontSize: 'md', fontWeight: 'md' }}>Traits:</Typography>
+          <Chip
+            variant='outlined'
+            color='neutral'
+            size='sm'
+            sx={{
+              borderRadius: 'sm',
+              px: 0.5,
+              py: 0.25,
+            }}
+          >
+            {metadata.attributes[0].trait_type}: {metadata.attributes[0].value}
+          </Chip>
+        </Box>
       </Box>
     </Card>
   )

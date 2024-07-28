@@ -8,8 +8,6 @@ export default function Header() {
     <Sheet
       sx={{
         alignItems: 'center',
-        borderBottom: '1px solid',
-        borderColor: 'background.level1',
         boxShadow: 'sm',
         display: { md: 'none', xs: 'flex' },
         gap: 1,
