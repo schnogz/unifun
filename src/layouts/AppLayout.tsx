@@ -15,9 +15,6 @@ export const AppLayout = withWalletGuard(({ children }: PropsWithChildren) => {
   // this is gross :)
   let pageTitle = ''
   switch (pathname) {
-    case '/explore':
-      pageTitle = 'Explore'
-      break
     case '/myNfts':
       pageTitle = 'My NFTs'
       break
@@ -28,7 +25,7 @@ export const AppLayout = withWalletGuard(({ children }: PropsWithChildren) => {
   }
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
+    <Box sx={{ display: 'flex', minHeight: '100dvh', overflow: 'hidden' }}>
       <Header />
       <Sidebar />
       <Box

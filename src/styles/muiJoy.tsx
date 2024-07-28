@@ -22,7 +22,7 @@ export default extendTheme({
           800: '#f8bbd0',
           900: '#fce4ec',
           solidActiveBg: 'var(--joy-palette-primary-400)',
-          solidBg: 'var(--joy-palette-primary-700)',
+          solidBg: 'var(--joy-palette-primary-600)',
           solidColor: 'var(--joy-palette-common-black)',
           solidHoverBg: 'var(--joy-palette-primary-600)',
         },

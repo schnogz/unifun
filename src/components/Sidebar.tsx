@@ -1,9 +1,4 @@
-import {
-  CollectionsRounded,
-  HomeRounded,
-  TravelExploreRounded,
-  PowerSettingsNewRounded,
-} from '@mui/icons-material'
+import { CollectionsRounded, HomeRounded, PowerSettingsNewRounded } from '@mui/icons-material'
 import {
   Avatar,
   Box,
@@ -134,19 +129,6 @@ export default function Sidebar() {
               <CollectionsRounded />
               <ListItemContent>
                 <Typography level='title-sm'>My NFTs</Typography>
-              </ListItemContent>
-            </ListItemButton>
-          </ListItem>
-
-          <ListItem>
-            <ListItemButton
-              selected={currentPathname === '/explore'}
-              component={Link}
-              href='/explore'
-            >
-              <TravelExploreRounded />
-              <ListItemContent>
-                <Typography level='title-sm'>Explore</Typography>
               </ListItemContent>
             </ListItemButton>
           </ListItem>
