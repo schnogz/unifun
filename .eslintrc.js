@@ -49,7 +49,9 @@ module.exports = {
           ['/^next/', 'module'],
           [
             '/^@/components/',
+            '/^@/constants/',
             '/^@/hocs/',
+            '/^@/hooks/',
             '/^@/layouts/',
             '/^@/pages/',
             '/^@/providers/',

@@ -345,12 +345,7 @@ const mockResponse = {
 
 const MyNftsPage: NextPageWithLayout = () => {
   return (
-    <Grid
-      container
-      spacing={4}
-      columns={12}
-      sx={{ flexGrow: 1, maxHeight: '95vh', overflow: 'scroll', px: 0 }}
-    >
+    <Grid container spacing={4} columns={12} sx={{ flexGrow: 1 }}>
       {mockResponse.result.map((nft) => (
         <Grid xs={12} sm={6} md={6} lg={4} xl={3} key={nft.token_id}>
           <Nft {...nft} />

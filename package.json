@@ -29,6 +29,7 @@
     "@rainbow-me/rainbowkit": "2.1.3",
     "@tanstack/react-query": "5.51.15",
     "@tsparticles/react": "3.0.0",
+    "bignumber.js": "9.1.2",
     "next": "14.2.5",
     "react": "18.3.1",
     "react-dom": "18.3.1",

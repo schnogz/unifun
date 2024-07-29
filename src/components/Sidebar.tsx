@@ -1,4 +1,4 @@
-import { CollectionsRounded, HomeRounded, PowerSettingsNewRounded } from '@mui/icons-material'
+import { PhotoLibraryRounded, HomeRounded, PowerSettingsNewRounded } from '@mui/icons-material'
 import {
   Avatar,
   Box,
@@ -18,7 +18,9 @@ import { normalize } from 'viem/ens'
 import { useAccount, useBalance, useEnsName, useEnsAvatar, useDisconnect } from 'wagmi'
 import { mainnet } from 'wagmi/chains'
 
+import ColorSchemeToggle from '@/components/ColorSchemeToggle'
 import { truncateAddress } from '@/utils/address'
+import { roundBalance } from '@/utils/balance'
 import { closeSidebar } from '@/utils/sidebar'
 
 export default function Sidebar() {
@@ -87,8 +89,9 @@ export default function Sidebar() {
         }}
         onClick={() => closeSidebar()}
       />
-      <Box sx={{ alignItems: 'center', display: 'flex', gap: 1 }}>
+      <Box sx={{ alignItems: 'center', display: 'flex', justifyContent: 'space-between' }}>
         <Typography level='title-lg'>🎉&nbsp;&nbsp;UniFun</Typography>
+        <ColorSchemeToggle />
       </Box>
 
       <Box
@@ -115,7 +118,7 @@ export default function Sidebar() {
             <ListItemButton selected={currentPathname === '/'} component={Link} href='/'>
               <HomeRounded />
               <ListItemContent>
-                <Typography level='title-sm'>Home</Typography>
+                <Typography level='title-sm'>Mint</Typography>
               </ListItemContent>
             </ListItemButton>
           </ListItem>
@@ -126,7 +129,7 @@ export default function Sidebar() {
               component={Link}
               href='/myNfts'
             >
-              <CollectionsRounded />
+              <PhotoLibraryRounded />
               <ListItemContent>
                 <Typography level='title-sm'>My NFTs</Typography>
               </ListItemContent>
@@ -147,7 +150,7 @@ export default function Sidebar() {
         <Box sx={{ flex: 1, minWidth: 0 }}>
           <Typography level='title-md'>{ensName ?? truncateAddress(address)}</Typography>
           <Typography level='body-sm'>
-            {balanceData?.formatted} {balanceData?.symbol}
+            {roundBalance(balanceData?.formatted)} {balanceData?.symbol}
           </Typography>
         </Box>
         <IconButton size='md' color='danger' variant='solid' onClick={() => disconnect()}>
