@@ -82,6 +82,7 @@ const HomePage: NextPageWithLayout = () => {
                     mintStatus === MintStatus.PENDING_MINT
                   }
                   loadingPosition='start'
+                  color={mintStatus === MintStatus.COMPLETED ? 'success' : 'primary'}
                   onClick={() =>
                     mintStatus === MintStatus.COMPLETED ? router.push('/myNfts') : mintNft()
                   }
@@ -115,9 +116,9 @@ const HomePage: NextPageWithLayout = () => {
       {/* following components are absolutely positioned 🤷‍ */}
       <Box
         sx={{
-          bottom: '50%',
           left: '50%',
           position: 'fixed',
+          top: '25%',
         }}
       >
         <span id='newMintConfetti' />

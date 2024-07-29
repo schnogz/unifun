@@ -17,11 +17,16 @@ export const useMintNft = () => {
   const [tokenId, setTokenId] = useState<number | undefined>(undefined)
   const [status, setStatus] = useState<MintStatus>(MintStatus.NOT_STARTED)
   const [walletError, setWalletError] = useState<string | undefined>(undefined)
+
   const { data: txHash, error: txSendError, writeContract } = useWriteContract()
-  const { reward: showConfetti } = useReward('newMintConfetti', 'confetti', {
-    elementCount: 500,
-    lifetime: 5000,
+  const { reward: showConfetti } = useReward('newMintConfetti', 'emoji', {
+    angle: 360,
+    elementCount: 350,
+    emoji: ['🦄', '🎉'],
+    lifetime: 400,
+    position: 'absolute',
     spread: 360,
+    startVelocity: 50,
   })
 
   useWatchContractEvent({
