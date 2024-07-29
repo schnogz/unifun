@@ -1,5 +1,7 @@
-import { Typography, Table } from '@mui/joy'
+import { Typography, Table, Link } from '@mui/joy'
+import dayjs from 'dayjs'
 
+import { SEPOLIA_ADDRESS_BASE_URL, SEPOLIA_TX_BASE_URL } from '@/constants'
 import { truncateAddress } from '@/utils/address'
 
 const mockResponse = {
@@ -705,6 +707,8 @@ const mockResponse = {
   },
 }
 
+// TODO: wrong minting address!
+
 export default function RecentMintsTable() {
   return (
     <Table
@@ -737,7 +741,7 @@ export default function RecentMintsTable() {
           </th>
           <th>
             <Typography level='title-sm' fontWeight='bolder'>
-              Date of Mint
+              Mint Time
             </Typography>
           </th>
         </tr>
@@ -752,15 +756,29 @@ export default function RecentMintsTable() {
                 </Typography>
               </td>
               <td>
-                <Typography level='body-sm'>{truncateAddress(nft.mint.mintAddress, 8)}</Typography>
+                <Typography
+                  level='body-sm'
+                  component={Link}
+                  href={`${SEPOLIA_ADDRESS_BASE_URL}${nft.mint.mintAddress}`}
+                  target='_blank'
+                >
+                  {truncateAddress(nft.mint.mintAddress, 8)}
+                </Typography>
               </td>
               <td>
-                <Typography level='body-sm'>
+                <Typography
+                  level='body-sm'
+                  component={Link}
+                  href={`${SEPOLIA_TX_BASE_URL}${nft.mint.transactionHash}`}
+                  target='_blank'
+                >
                   {truncateAddress(nft.mint.transactionHash, 8)}
                 </Typography>
               </td>
               <td>
-                <Typography level='body-sm'>{nft.mint.timestamp}</Typography>
+                <Typography level='body-sm'>
+                  {dayjs(nft.mint.timestamp).format('MMM D YYYY h:mm A')}
+                </Typography>
               </td>
             </tr>
           )

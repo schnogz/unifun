@@ -18,7 +18,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run ci:lint"
+      "pre-commit": "npm run ci:lint",
+      "pre-push": "npm run test"
     }
   },
   "dependencies": {
@@ -31,6 +32,7 @@
     "@tanstack/react-query": "5.51.15",
     "@tsparticles/react": "3.0.0",
     "bignumber.js": "9.1.2",
+    "dayjs": "1.11.12",
     "next": "14.2.5",
     "react": "18.3.1",
     "react-dom": "18.3.1",
