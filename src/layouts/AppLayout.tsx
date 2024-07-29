@@ -13,13 +13,17 @@ export const AppLayout = withWalletGuard(({ children }: PropsWithChildren) => {
       <Box
         component='main'
         className='MainContent'
-        sx={{
+        sx={(theme) => ({
           display: 'flex',
           flex: 1,
           height: '100dvh',
+          mt: 4,
           overflow: 'scroll',
           p: 6,
-        }}
+          [theme.breakpoints.up('md')]: {
+            mt: 0,
+          },
+        })}
       >
         {children}
       </Box>

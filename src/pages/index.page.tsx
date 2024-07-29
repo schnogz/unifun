@@ -4,7 +4,6 @@ import {
   Box,
   Container,
   Typography,
-  typographyClasses,
   Grid,
   Card,
   CardContent,
@@ -33,79 +32,79 @@ const HomePage: NextPageWithLayout = () => {
         gap: 6,
       }}
     >
-      <Box
+      <Grid
+        container
+        spacing={1}
         sx={(theme) => ({
           alignItems: 'center',
           display: 'flex',
           flexDirection: 'column',
-          flexShrink: 999,
-          gap: '1rem',
-          textAlign: 'center',
-          [theme.breakpoints.up(834)]: {
-            alignItems: 'flex-start',
-            minWidth: 420,
-            textAlign: 'initial',
-          },
-          [`& .${typographyClasses.root}`]: {
-            textWrap: 'balance',
+          [theme.breakpoints.up('md')]: {
+            flexDirection: 'row',
           },
         })}
       >
-        <Grid
-          container
-          spacing={1}
-          sx={{ alignItems: 'center', display: 'flex', flexGrow: 1, justifyContent: 'center' }}
-        >
-          <Grid xs={6}>
-            <Typography color='primary' fontSize='lg' fontWeight='lg'>
-              It&apos;s going up forever, Laura.
-            </Typography>
-            <Typography level='h1' fontWeight='xl' fontSize='3rem'>
-              Satoshi&apos;s favorite NFT collection is UniFun 🎉
-            </Typography>
-            <Typography fontSize='xs' textColor='gray' lineHeight='lg'>
-              The above statements were forged by Craig Wright
-            </Typography>
-          </Grid>
-
-          <Grid xs={6} sx={{ alignItems: 'center', display: 'flex', justifyContent: 'center' }}>
-            <Card variant='outlined' sx={{ width: '360px' }}>
-              <CardOverflow>
-                <AspectRatio objectFit='scale-down' minHeight={225}>
-                  <img src={UNI_TOKEN_IMG} loading='lazy' alt='' />
-                </AspectRatio>
-              </CardOverflow>
-              <CardContent>
-                <Button
-                  size='lg'
-                  loading={
-                    mintStatus === MintStatus.PENDING_TX_SEND ||
-                    mintStatus === MintStatus.PENDING_MINT
-                  }
-                  loadingPosition='start'
-                  color={mintStatus === MintStatus.COMPLETED ? 'success' : 'primary'}
-                  onClick={() =>
-                    mintStatus === MintStatus.COMPLETED ? router.push('/myNfts') : mintNft()
-                  }
-                  startDecorator={
-                    mintStatus === MintStatus.COMPLETED ? (
-                      <PhotoLibraryRounded />
-                    ) : (
-                      <FavoriteBorderRounded />
-                    )
-                  }
-                >
-                  {(mintStatus === MintStatus.NOT_STARTED || mintStatus === MintStatus.ERROR) &&
-                    'Mint Now'}
-                  {mintStatus === MintStatus.PENDING_TX_SEND && 'Pending TX'}
-                  {mintStatus === MintStatus.PENDING_MINT && 'Minting'}
-                  {mintStatus === MintStatus.COMPLETED && 'View NFT'}
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
+        <Grid xs={12} md={6}>
+          <Typography color='primary' fontSize='lg' fontWeight='lg'>
+            It&apos;s going up forever, Laura.
+          </Typography>
+          <Typography level='h1' fontWeight='xl' fontSize='3rem'>
+            Satoshi&apos;s favorite NFT collection is UniFun 🎉
+          </Typography>
+          <Typography fontSize='10px' textColor='gray' lineHeight='lg'>
+            *The above statements may have been forged by Craig Wright
+          </Typography>
         </Grid>
-      </Box>
+
+        <Grid
+          xs={12}
+          md={6}
+          sx={(theme) => ({
+            alignItems: 'center',
+            display: 'flex',
+            justifyContent: 'center',
+            mt: 4,
+            [theme.breakpoints.up('md')]: {
+              mt: 0,
+            },
+          })}
+        >
+          <Card variant='outlined' sx={{ width: '360px' }}>
+            <CardOverflow>
+              <AspectRatio objectFit='scale-down' minHeight={225}>
+                <img src={UNI_TOKEN_IMG} loading='lazy' alt='' />
+              </AspectRatio>
+            </CardOverflow>
+            <CardContent>
+              <Button
+                size='lg'
+                loading={
+                  mintStatus === MintStatus.PENDING_TX_SEND ||
+                  mintStatus === MintStatus.PENDING_MINT
+                }
+                loadingPosition='start'
+                color={mintStatus === MintStatus.COMPLETED ? 'success' : 'primary'}
+                onClick={() =>
+                  mintStatus === MintStatus.COMPLETED ? router.push('/myNfts') : mintNft()
+                }
+                startDecorator={
+                  mintStatus === MintStatus.COMPLETED ? (
+                    <PhotoLibraryRounded />
+                  ) : (
+                    <FavoriteBorderRounded />
+                  )
+                }
+              >
+                {(mintStatus === MintStatus.NOT_STARTED || mintStatus === MintStatus.ERROR) &&
+                  'Mint Now'}
+                {mintStatus === MintStatus.PENDING_TX_SEND && 'Pending TX'}
+                {mintStatus === MintStatus.PENDING_MINT && 'Minting'}
+                {mintStatus === MintStatus.COMPLETED && 'View NFT'}
+              </Button>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
 
       <Box>
         <Typography fontSize='1.5rem' fontWeight='lg' sx={{ mb: 1 }}>
