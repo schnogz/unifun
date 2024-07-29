@@ -9,7 +9,7 @@ import {
   ListItemButton,
   listItemButtonClasses,
   ListItem,
-  IconButton,
+  Button,
   List,
 } from '@mui/joy'
 import Link from 'next/link'
@@ -148,15 +148,21 @@ export default function Sidebar() {
           />
         )}
         <Box sx={{ flex: 1, minWidth: 0 }}>
-          <Typography level='title-md'>{ensName ?? truncateAddress(address)}</Typography>
+          <Typography level='title-md'>{ensName ?? truncateAddress(address, 6)}</Typography>
           <Typography level='body-sm'>
             {roundBalance(balanceData?.formatted)} {balanceData?.symbol}
           </Typography>
         </Box>
-        <IconButton size='md' color='danger' variant='solid' onClick={() => disconnect()}>
-          <PowerSettingsNewRounded />
-        </IconButton>
       </Box>
+      <Button
+        size='md'
+        color='danger'
+        variant='outlined'
+        onClick={() => disconnect()}
+        startDecorator={<PowerSettingsNewRounded />}
+      >
+        Disconnect
+      </Button>
     </Sheet>
   )
 }
