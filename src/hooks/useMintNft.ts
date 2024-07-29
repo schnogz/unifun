@@ -27,6 +27,7 @@ export const useMintNft = () => {
     position: 'absolute',
     spread: 360,
     startVelocity: 50,
+    zIndex: 9999,
   })
 
   useWatchContractEvent({
