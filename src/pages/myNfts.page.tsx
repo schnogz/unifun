@@ -1,357 +1,71 @@
-import { Grid } from '@mui/joy'
+import { Grid, Box, CircularProgress, Typography, Button } from '@mui/joy'
+import dayjs from 'dayjs'
+import Link from 'next/link'
 
-import Nft from '@/components/Nft'
+import NftCard from '@/components/NftCard'
+import { useFetchNftsForOwner } from '@/hooks/useFetchNftsForOwner'
 import { AppLayout } from '@/layouts/AppLayout'
 import { NextPageWithLayout } from '@/types/layout'
 
-const mockResponse = {
-  cursor: null,
-  page: 1,
-  page_size: 100,
-  result: [
-    {
-      amount: '1',
-      block_number: '6380874',
-      block_number_minted: '6380874',
-      collection_banner_image: '',
-      collection_logo: '',
-      contract_type: 'ERC721',
-      last_metadata_sync: '2024-07-28T04:19:25.461Z',
-      last_token_uri_sync: '2024-07-28T04:19:25.177Z',
-      metadata:
-        '{"attributes":[{"trait_type":"Fun","value":"Yes"}],"description":"Uniswap, Unifun!","image":"https://gateway.pinata.cloud/ipfs/QmdVHTDaxXEdDYr5aUCLJaQNY37qyajFAXrJFFTEpLuzvz","name":"Unifun"}',
-      minter_address: '0x9984b4b4e408e8d618a879e5315bd30952c89103',
-      name: 'UniFun',
-      owner_of: '0x9984b4b4e408e8d618a879e5315bd30952c89103',
-      possible_spam: false,
-      symbol: 'UNIFUN',
-      token_address: '0xc3d8457b3d0996e3210e518a9744c17277663d2f',
-      token_hash: 'cb18812790106821299c566f0e5d416e',
-      token_id: '2229',
-      token_uri: 'https://ipfs.moralis.io:2053/ipfs/QmNuScBxB2efPASax26pTk7B6UK1U3aejbLJCq3kiQexkc',
-      verified_collection: false,
-    },
-    {
-      amount: '1',
-      block_number: '6380834',
-      block_number_minted: '6380834',
-      collection_banner_image: '',
-      collection_logo: '',
-      contract_type: 'ERC721',
-      last_metadata_sync: '2024-07-28T04:19:25.515Z',
-      last_token_uri_sync: '2024-07-28T04:19:25.177Z',
-      metadata:
-        '{"attributes":[{"trait_type":"Fun","value":"Yes"}],"description":"Uniswap, Unifun!","image":"https://gateway.pinata.cloud/ipfs/QmdVHTDaxXEdDYr5aUCLJaQNY37qyajFAXrJFFTEpLuzvz","name":"Unifun"}',
-      minter_address: '0x9984b4b4e408e8d618a879e5315bd30952c89103',
-      name: 'UniFun',
-      owner_of: '0x9984b4b4e408e8d618a879e5315bd30952c89103',
-      possible_spam: false,
-      symbol: 'UNIFUN',
-      token_address: '0xc3d8457b3d0996e3210e518a9744c17277663d2f',
-      token_hash: '07381fa4f67955df5d042c7711974336',
-      token_id: '2228',
-      token_uri: 'https://ipfs.moralis.io:2053/ipfs/QmNuScBxB2efPASax26pTk7B6UK1U3aejbLJCq3kiQexkc',
-      verified_collection: false,
-    },
-    {
-      amount: '1',
-      block_number: '6363079',
-      block_number_minted: '6363079',
-      collection_banner_image: '',
-      collection_logo: '',
-      contract_type: 'ERC721',
-      last_metadata_sync: '2024-07-28T04:19:25.488Z',
-      last_token_uri_sync: '2024-07-28T04:19:25.178Z',
-      metadata:
-        '{"attributes":[{"trait_type":"Fun","value":"Yes"}],"description":"Uniswap, Unifun!","image":"https://gateway.pinata.cloud/ipfs/QmdVHTDaxXEdDYr5aUCLJaQNY37qyajFAXrJFFTEpLuzvz","name":"Unifun"}',
-      minter_address: '0x9984b4b4e408e8d618a879e5315bd30952c89103',
-      name: 'UniFun',
-      owner_of: '0x9984b4b4e408e8d618a879e5315bd30952c89103',
-      possible_spam: false,
-      symbol: 'UNIFUN',
-      token_address: '0xc3d8457b3d0996e3210e518a9744c17277663d2f',
-      token_hash: 'bd80dbd28e5fb56575209eca27c185af',
-      token_id: '2140',
-      token_uri: 'https://ipfs.moralis.io:2053/ipfs/QmNuScBxB2efPASax26pTk7B6UK1U3aejbLJCq3kiQexkc',
-      verified_collection: false,
-    },
-    {
-      amount: '1',
-      block_number: '6363074',
-      block_number_minted: '6363074',
-      collection_banner_image: '',
-      collection_logo: '',
-      contract_type: 'ERC721',
-      last_metadata_sync: '2024-07-28T04:19:25.451Z',
-      last_token_uri_sync: '2024-07-28T04:19:25.178Z',
-      metadata:
-        '{"attributes":[{"trait_type":"Fun","value":"Yes"}],"description":"Uniswap, Unifun!","image":"https://gateway.pinata.cloud/ipfs/QmdVHTDaxXEdDYr5aUCLJaQNY37qyajFAXrJFFTEpLuzvz","name":"Unifun"}',
-      minter_address: '0x9984b4b4e408e8d618a879e5315bd30952c89103',
-      name: 'UniFun',
-      owner_of: '0x9984b4b4e408e8d618a879e5315bd30952c89103',
-      possible_spam: false,
-      symbol: 'UNIFUN',
-      token_address: '0xc3d8457b3d0996e3210e518a9744c17277663d2f',
-      token_hash: '3542f338c1c40fa479ed81f78bacb6b6',
-      token_id: '2139',
-      token_uri: 'https://ipfs.moralis.io:2053/ipfs/QmNuScBxB2efPASax26pTk7B6UK1U3aejbLJCq3kiQexkc',
-      verified_collection: false,
-    },
-    {
-      amount: '1',
-      block_number: '6341473',
-      block_number_minted: '6341473',
-      collection_banner_image: '',
-      collection_logo: '',
-      contract_type: 'ERC721',
-      last_metadata_sync: '2024-07-28T04:19:25.481Z',
-      last_token_uri_sync: '2024-07-28T04:19:25.178Z',
-      metadata:
-        '{"attributes":[{"trait_type":"Fun","value":"Yes"}],"description":"Uniswap, Unifun!","image":"https://gateway.pinata.cloud/ipfs/QmdVHTDaxXEdDYr5aUCLJaQNY37qyajFAXrJFFTEpLuzvz","name":"Unifun"}',
-      minter_address: '0x9984b4b4e408e8d618a879e5315bd30952c89103',
-      name: 'UniFun',
-      owner_of: '0x9984b4b4e408e8d618a879e5315bd30952c89103',
-      possible_spam: false,
-      symbol: 'UNIFUN',
-      token_address: '0xc3d8457b3d0996e3210e518a9744c17277663d2f',
-      token_hash: '079203ef81b5c887422560eb9d29e677',
-      token_id: '1977',
-      token_uri: 'https://ipfs.moralis.io:2053/ipfs/QmNuScBxB2efPASax26pTk7B6UK1U3aejbLJCq3kiQexkc',
-      verified_collection: false,
-    },
-    {
-      amount: '1',
-      block_number: '6334962',
-      block_number_minted: '6334962',
-      collection_banner_image: '',
-      collection_logo: '',
-      contract_type: 'ERC721',
-      last_metadata_sync: '2024-07-28T04:19:25.469Z',
-      last_token_uri_sync: '2024-07-28T04:19:25.157Z',
-      metadata:
-        '{"attributes":[{"trait_type":"Fun","value":"Yes"}],"description":"Uniswap, Unifun!","image":"https://gateway.pinata.cloud/ipfs/QmdVHTDaxXEdDYr5aUCLJaQNY37qyajFAXrJFFTEpLuzvz","name":"Unifun"}',
-      minter_address: '0x9984b4b4e408e8d618a879e5315bd30952c89103',
-      name: 'UniFun',
-      owner_of: '0x9984b4b4e408e8d618a879e5315bd30952c89103',
-      possible_spam: false,
-      symbol: 'UNIFUN',
-      token_address: '0xc3d8457b3d0996e3210e518a9744c17277663d2f',
-      token_hash: '12e605b8a147728e1fda3e4c4fd9db13',
-      token_id: '1937',
-      token_uri: 'https://ipfs.moralis.io:2053/ipfs/QmNuScBxB2efPASax26pTk7B6UK1U3aejbLJCq3kiQexkc',
-      verified_collection: false,
-    },
-    {
-      amount: '1',
-      block_number: '6334957',
-      block_number_minted: '6334957',
-      collection_banner_image: '',
-      collection_logo: '',
-      contract_type: 'ERC721',
-      last_metadata_sync: '2024-07-28T04:19:25.507Z',
-      last_token_uri_sync: '2024-07-28T04:19:25.157Z',
-      metadata:
-        '{"attributes":[{"trait_type":"Fun","value":"Yes"}],"description":"Uniswap, Unifun!","image":"https://gateway.pinata.cloud/ipfs/QmdVHTDaxXEdDYr5aUCLJaQNY37qyajFAXrJFFTEpLuzvz","name":"Unifun"}',
-      minter_address: '0x9984b4b4e408e8d618a879e5315bd30952c89103',
-      name: 'UniFun',
-      owner_of: '0x9984b4b4e408e8d618a879e5315bd30952c89103',
-      possible_spam: false,
-      symbol: 'UNIFUN',
-      token_address: '0xc3d8457b3d0996e3210e518a9744c17277663d2f',
-      token_hash: 'e5c6b3d9d901922334892bc6be0fad30',
-      token_id: '1936',
-      token_uri: 'https://ipfs.moralis.io:2053/ipfs/QmNuScBxB2efPASax26pTk7B6UK1U3aejbLJCq3kiQexkc',
-      verified_collection: false,
-    },
-    {
-      amount: '1',
-      block_number: '6334956',
-      block_number_minted: '6334956',
-      collection_banner_image: '',
-      collection_logo: '',
-      contract_type: 'ERC721',
-      last_metadata_sync: '2024-07-28T04:19:25.464Z',
-      last_token_uri_sync: '2024-07-28T04:19:25.157Z',
-      metadata:
-        '{"attributes":[{"trait_type":"Fun","value":"Yes"}],"description":"Uniswap, Unifun!","image":"https://gateway.pinata.cloud/ipfs/QmdVHTDaxXEdDYr5aUCLJaQNY37qyajFAXrJFFTEpLuzvz","name":"Unifun"}',
-      minter_address: '0x9984b4b4e408e8d618a879e5315bd30952c89103',
-      name: 'UniFun',
-      owner_of: '0x9984b4b4e408e8d618a879e5315bd30952c89103',
-      possible_spam: false,
-      symbol: 'UNIFUN',
-      token_address: '0xc3d8457b3d0996e3210e518a9744c17277663d2f',
-      token_hash: 'df38333f00b70341127c73d9e72c714e',
-      token_id: '1935',
-      token_uri: 'https://ipfs.moralis.io:2053/ipfs/QmNuScBxB2efPASax26pTk7B6UK1U3aejbLJCq3kiQexkc',
-      verified_collection: false,
-    },
-    {
-      amount: '1',
-      block_number: '6238889',
-      block_number_minted: '6238889',
-      collection_banner_image: '',
-      collection_logo: '',
-      contract_type: 'ERC721',
-      last_metadata_sync: '2024-07-28T04:19:25.484Z',
-      last_token_uri_sync: '2024-07-28T04:19:25.157Z',
-      metadata:
-        '{"attributes":[{"trait_type":"Fun","value":"Yes"}],"description":"Uniswap, Unifun!","image":"https://gateway.pinata.cloud/ipfs/QmdVHTDaxXEdDYr5aUCLJaQNY37qyajFAXrJFFTEpLuzvz","name":"Unifun"}',
-      minter_address: '0x9984b4b4e408e8d618a879e5315bd30952c89103',
-      name: 'UniFun',
-      owner_of: '0x9984b4b4e408e8d618a879e5315bd30952c89103',
-      possible_spam: false,
-      symbol: 'UNIFUN',
-      token_address: '0xc3d8457b3d0996e3210e518a9744c17277663d2f',
-      token_hash: '59fc7cecd0f0dcafb80cae22042fd34f',
-      token_id: '1854',
-      token_uri: 'https://ipfs.moralis.io:2053/ipfs/QmNuScBxB2efPASax26pTk7B6UK1U3aejbLJCq3kiQexkc',
-      verified_collection: false,
-    },
-    {
-      amount: '1',
-      block_number: '6238889',
-      block_number_minted: '6238889',
-      collection_banner_image: '',
-      collection_logo: '',
-      contract_type: 'ERC721',
-      last_metadata_sync: '2024-07-28T04:19:25.507Z',
-      last_token_uri_sync: '2024-07-28T04:19:25.157Z',
-      metadata:
-        '{"attributes":[{"trait_type":"Fun","value":"Yes"}],"description":"Uniswap, Unifun!","image":"https://gateway.pinata.cloud/ipfs/QmdVHTDaxXEdDYr5aUCLJaQNY37qyajFAXrJFFTEpLuzvz","name":"Unifun"}',
-      minter_address: '0x9984b4b4e408e8d618a879e5315bd30952c89103',
-      name: 'UniFun',
-      owner_of: '0x9984b4b4e408e8d618a879e5315bd30952c89103',
-      possible_spam: false,
-      symbol: 'UNIFUN',
-      token_address: '0xc3d8457b3d0996e3210e518a9744c17277663d2f',
-      token_hash: '403a2f55977de488d53d81f740886cc4',
-      token_id: '1853',
-      token_uri: 'https://ipfs.moralis.io:2053/ipfs/QmNuScBxB2efPASax26pTk7B6UK1U3aejbLJCq3kiQexkc',
-      verified_collection: false,
-    },
-    {
-      amount: '1',
-      block_number: '5868707',
-      block_number_minted: '5868707',
-      collection_banner_image: '',
-      collection_logo: '',
-      contract_type: 'ERC721',
-      last_metadata_sync: '2024-07-28T04:19:25.420Z',
-      last_token_uri_sync: '2024-07-28T04:19:25.176Z',
-      metadata:
-        '{"attributes":[{"trait_type":"Fun","value":"Yes"}],"description":"Uniswap, Unifun!","image":"https://gateway.pinata.cloud/ipfs/QmdVHTDaxXEdDYr5aUCLJaQNY37qyajFAXrJFFTEpLuzvz","name":"Unifun"}',
-      minter_address: '0x9984b4b4e408e8d618a879e5315bd30952c89103',
-      name: 'UniFun',
-      owner_of: '0x9984b4b4e408e8d618a879e5315bd30952c89103',
-      possible_spam: false,
-      symbol: 'UNIFUN',
-      token_address: '0xc3d8457b3d0996e3210e518a9744c17277663d2f',
-      token_hash: '4bb7bc803e2649213d8a8f7ec1c131e1',
-      token_id: '1632',
-      token_uri: 'https://ipfs.moralis.io:2053/ipfs/QmNuScBxB2efPASax26pTk7B6UK1U3aejbLJCq3kiQexkc',
-      verified_collection: false,
-    },
-    {
-      amount: '1',
-      block_number: '5868700',
-      block_number_minted: '5868700',
-      collection_banner_image: '',
-      collection_logo: '',
-      contract_type: 'ERC721',
-      last_metadata_sync: '2024-07-28T04:19:25.481Z',
-      last_token_uri_sync: '2024-07-28T04:19:25.176Z',
-      metadata:
-        '{"attributes":[{"trait_type":"Fun","value":"Yes"}],"description":"Uniswap, Unifun!","image":"https://gateway.pinata.cloud/ipfs/QmdVHTDaxXEdDYr5aUCLJaQNY37qyajFAXrJFFTEpLuzvz","name":"Unifun"}',
-      minter_address: '0x9984b4b4e408e8d618a879e5315bd30952c89103',
-      name: 'UniFun',
-      owner_of: '0x9984b4b4e408e8d618a879e5315bd30952c89103',
-      possible_spam: false,
-      symbol: 'UNIFUN',
-      token_address: '0xc3d8457b3d0996e3210e518a9744c17277663d2f',
-      token_hash: 'bec5709e436b27ad339cf5a0b8e4ec70',
-      token_id: '1631',
-      token_uri: 'https://ipfs.moralis.io:2053/ipfs/QmNuScBxB2efPASax26pTk7B6UK1U3aejbLJCq3kiQexkc',
-      verified_collection: false,
-    },
-    {
-      amount: '1',
-      block_number: '5734040',
-      block_number_minted: '5734040',
-      collection_banner_image: '',
-      collection_logo: '',
-      contract_type: 'ERC721',
-      last_metadata_sync: '2024-07-28T04:19:25.514Z',
-      last_token_uri_sync: '2024-07-28T04:19:25.176Z',
-      metadata:
-        '{"attributes":[{"trait_type":"Fun","value":"Yes"}],"description":"Uniswap, Unifun!","image":"https://gateway.pinata.cloud/ipfs/QmdVHTDaxXEdDYr5aUCLJaQNY37qyajFAXrJFFTEpLuzvz","name":"Unifun"}',
-      minter_address: '0x9984b4b4e408e8d618a879e5315bd30952c89103',
-      name: 'UniFun',
-      owner_of: '0x9984b4b4e408e8d618a879e5315bd30952c89103',
-      possible_spam: false,
-      symbol: 'UNIFUN',
-      token_address: '0xc3d8457b3d0996e3210e518a9744c17277663d2f',
-      token_hash: '1c46dd765ce84f7a5f2b1503e0327eea',
-      token_id: '1435',
-      token_uri: 'https://ipfs.moralis.io:2053/ipfs/QmNuScBxB2efPASax26pTk7B6UK1U3aejbLJCq3kiQexkc',
-      verified_collection: false,
-    },
-    {
-      amount: '1',
-      block_number: '5629538',
-      block_number_minted: '5629538',
-      collection_banner_image: '',
-      collection_logo: '',
-      contract_type: 'ERC721',
-      last_metadata_sync: '2024-07-28T04:19:25.540Z',
-      last_token_uri_sync: '2024-07-28T04:19:25.177Z',
-      metadata:
-        '{"attributes":[{"trait_type":"Fun","value":"Yes"}],"description":"Uniswap, Unifun!","image":"https://gateway.pinata.cloud/ipfs/QmdVHTDaxXEdDYr5aUCLJaQNY37qyajFAXrJFFTEpLuzvz","name":"Unifun"}',
-      minter_address: '0x9984b4b4e408e8d618a879e5315bd30952c89103',
-      name: 'UniFun',
-      owner_of: '0x9984b4b4e408e8d618a879e5315bd30952c89103',
-      possible_spam: false,
-      symbol: 'UNIFUN',
-      token_address: '0xc3d8457b3d0996e3210e518a9744c17277663d2f',
-      token_hash: 'c0e42f4dc242ea73925705eb748c0631',
-      token_id: '1422',
-      token_uri: 'https://ipfs.moralis.io:2053/ipfs/QmNuScBxB2efPASax26pTk7B6UK1U3aejbLJCq3kiQexkc',
-      verified_collection: false,
-    },
-    {
-      amount: '1',
-      block_number: '5629535',
-      block_number_minted: '5629535',
-      collection_banner_image: '',
-      collection_logo: '',
-      contract_type: 'ERC721',
-      last_metadata_sync: '2024-07-28T04:19:25.470Z',
-      last_token_uri_sync: '2024-07-28T04:19:25.177Z',
-      metadata:
-        '{"attributes":[{"trait_type":"Fun","value":"Yes"}],"description":"Uniswap, Unifun!","image":"https://gateway.pinata.cloud/ipfs/QmdVHTDaxXEdDYr5aUCLJaQNY37qyajFAXrJFFTEpLuzvz","name":"Unifun"}',
-      minter_address: '0x9984b4b4e408e8d618a879e5315bd30952c89103',
-      name: 'UniFun',
-      owner_of: '0x9984b4b4e408e8d618a879e5315bd30952c89103',
-      possible_spam: false,
-      symbol: 'UNIFUN',
-      token_address: '0xc3d8457b3d0996e3210e518a9744c17277663d2f',
-      token_hash: '86217fb5e8f008d1db8ab11a3f2fa7d3',
-      token_id: '1421',
-      token_uri: 'https://ipfs.moralis.io:2053/ipfs/QmNuScBxB2efPASax26pTk7B6UK1U3aejbLJCq3kiQexkc',
-      verified_collection: false,
-    },
-  ],
-  status: 'SYNCED',
-}
-
 const MyNftsPage: NextPageWithLayout = () => {
+  const { data, isError, isLoading } = useFetchNftsForOwner()
+
+  if (isLoading || isError) {
+    return (
+      <Box
+        sx={{
+          alignItems: 'center',
+          display: 'flex',
+          flex: 1,
+          justifyContent: 'center',
+          mt: 2,
+        }}
+      >
+        {isLoading && <CircularProgress variant='soft' size='md' />}
+        {isError && <Typography color='danger'>Failed to fetch data :(</Typography>}
+      </Box>
+    )
+  }
+
   return (
-    <Grid container spacing={4} columns={12} sx={{ flexGrow: 1 }}>
-      {mockResponse.result.map((nft) => (
-        <Grid xs={12} sm={6} md={6} lg={4} xl={3} key={nft.token_id}>
-          <Nft {...nft} />
+    <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+      <Box sx={{ alignItems: 'flex-start', display: 'flex', flexDirection: 'column', mb: 4 }}>
+        <Typography fontSize='x-large' color='primary' fontWeight='bolder'>
+          You own {data.totalCount} UNIFUN
+        </Typography>
+        <Typography fontSize='12px'>
+          last updated {dayjs(data.validAt.blockTimestamp).format('h:mm:ss A')}
+        </Typography>
+      </Box>
+
+      {data?.ownedNfts.length ? (
+        <Grid container spacing={4} columns={12} sx={{ flexGrow: 1 }}>
+          {data?.ownedNfts?.map((nft) => (
+            <Grid xs={12} sm={6} md={6} lg={4} xl={3} key={nft.tokenId}>
+              <NftCard {...nft} />
+            </Grid>
+          ))}
         </Grid>
-      ))}
-    </Grid>
+      ) : (
+        <Box
+          sx={{
+            alignItems: 'center',
+            display: 'flex',
+            flex: 1,
+            flexDirection: 'column',
+            gap: 4,
+            justifyContent: 'center',
+          }}
+        >
+          <Typography fontSize='x-large' fontWeight='bolder'>
+            Maybe you should mint one?
+          </Typography>
+          <Button component={Link} href='/' size='lg' color='primary'>
+            Mint Now
+          </Button>
+        </Box>
+      )}
+    </Box>
   )
 }
 
