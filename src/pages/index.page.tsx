@@ -16,9 +16,10 @@ import { useRouter } from 'next/router'
 import { Alert } from '@/components/Alert'
 import RecentMintsTable from '@/components/RecentMintsTable'
 import { UNI_TOKEN_IMG } from '@/constants'
-import { useMintNft, MintStatus } from '@/hooks/useMintNft'
+import { useMintNft } from '@/hooks/useMintNft'
 import { AppLayout } from '@/layouts/AppLayout'
 import { NextPageWithLayout } from '@/types/layout'
+import { MintStatus } from '@/types/mint'
 
 const HomePage: NextPageWithLayout = () => {
   const router = useRouter()

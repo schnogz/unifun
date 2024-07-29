@@ -3,14 +3,7 @@ import { useReward } from 'react-rewards'
 import { useWriteContract, useAccount, useWatchContractEvent } from 'wagmi'
 
 import { UNI_CONTRACT_ABI, UNI_CONTRACT_ADDRESS } from '@/constants'
-
-export enum MintStatus {
-  COMPLETED = 'COMPLETED',
-  ERROR = 'ERROR',
-  NOT_STARTED = 'NOT_STARTED',
-  PENDING_TX_SEND = 'PENDING_TX_SEND',
-  PENDING_MINT = 'PENDING_MINT',
-}
+import { MintStatus } from '@/types/mint'
 
 export const useMintNft = () => {
   const { address } = useAccount()

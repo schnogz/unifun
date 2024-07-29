@@ -30,11 +30,12 @@ const ConnectPage: NextPageWithLayout = () => {
         spacing={2}
         sx={{ marginTop: 2 }}
       >
-        <Button size='lg' color='primary' onClick={openConnectModal}>
+        <Button size='lg' color='primary' onClick={openConnectModal} data-testid='connectWalletBtn'>
           Connect Wallet
         </Button>
         <Button
           component='a'
+          data-testid='learnMoreBtn'
           href='https://uniswap.org/'
           target='_blank'
           size='lg'
