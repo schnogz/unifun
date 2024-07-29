@@ -1,14 +1,17 @@
-import { SendRounded } from '@mui/icons-material'
+import { MoreVertRounded } from '@mui/icons-material'
 import {
   AspectRatio,
   Box,
   Card,
   Chip,
   Typography,
-  Tooltip,
   IconButton,
   Modal,
   Link,
+  Dropdown,
+  MenuButton,
+  Menu,
+  MenuItem,
 } from '@mui/joy'
 import { OwnedNft } from 'alchemy-sdk'
 import dayjs from 'dayjs'
@@ -44,11 +47,14 @@ export default function NftCard(props: OwnedNft) {
           </Typography>
         </Box>
 
-        <Tooltip title='Transfer' variant='solid'>
-          <IconButton size='md' variant='plain' onClick={() => setIsTransferModalOpen(true)}>
-            <SendRounded />
-          </IconButton>
-        </Tooltip>
+        <Dropdown>
+          <MenuButton slots={{ root: IconButton }} slotProps={{ root: { color: 'neutral' } }}>
+            <MoreVertRounded />
+          </MenuButton>
+          <Menu placement='bottom-end'>
+            <MenuItem onClick={() => setIsTransferModalOpen(true)}>Transfer</MenuItem>
+          </Menu>
+        </Dropdown>
       </Box>
 
       {/* Card Body */}
