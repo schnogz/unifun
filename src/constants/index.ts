@@ -2,7 +2,7 @@
 export const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 
 // ALCHEMY
-export const ALCHEMY_API_KEY = 'rJNTRaejmgHGpKPcDiRjhY2yWeySBMSl'
+export const ALCHEMY_API_KEY = 'MWzubjo_96AuD0aMPyvAyr4xQOJ4DE31'
 
 // CHAIN
 export const SEPOLIA_ADDRESS_BASE_URL = 'https://sepolia.etherscan.io/address/'
