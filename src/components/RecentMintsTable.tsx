@@ -1,31 +1,12 @@
-import { Box, Typography, Table, Link, CircularProgress } from '@mui/joy'
+import { Typography, Table, Link } from '@mui/joy'
+import { NftContractNftsResponse, Nft } from 'alchemy-sdk'
 import dayjs from 'dayjs'
 
 import { SEPOLIA_ADDRESS_BASE_URL, SEPOLIA_TX_BASE_URL } from '@/constants'
-import { useFetchRecentMints } from '@/hooks/useFetchRecentMints'
 import { truncateAddress } from '@/utils/address'
 
-export default function RecentMintsTable() {
-  const { data, isError, isLoading } = useFetchRecentMints()
-
-  if (isLoading || isError) {
-    return (
-      <Box
-        sx={{
-          alignItems: 'center',
-          display: 'flex',
-          flex: 1,
-          justifyContent: 'center',
-          mt: 2,
-        }}
-      >
-        {isLoading && <CircularProgress variant='soft' size='md' />}
-        {isError && <Typography color='danger'>Failed to fetch data :(</Typography>}
-      </Box>
-    )
-  }
-
-  return (
+export default function RecentMintsTable({ data }: { data: NftContractNftsResponse }) {
+  return data?.nfts?.length ? (
     <Table
       size='sm'
       borderAxis='xBetween'
@@ -34,6 +15,7 @@ export default function RecentMintsTable() {
         '--TableCell-paddingX': '1rem',
         '--TableCell-paddingY': '1rem',
         borderRadius: 2,
+        mb: 2,
       }}
     >
       <thead>
@@ -61,7 +43,7 @@ export default function RecentMintsTable() {
         </tr>
       </thead>
       <tbody>
-        {data?.nfts?.map((nft) => {
+        {data?.nfts?.map((nft: Nft & { to?: string; transactionHash?: string }) => {
           return (
             <tr key={nft.tokenId}>
               <td>
@@ -73,29 +55,25 @@ export default function RecentMintsTable() {
                 <Typography
                   level='body-sm'
                   component={Link}
-                  href={`${SEPOLIA_ADDRESS_BASE_URL}${nft.mint?.mintAddress}`}
+                  href={`${SEPOLIA_ADDRESS_BASE_URL}${nft.mint?.mintAddress ?? nft.to}`}
                   target='_blank'
                 >
-                  {nft.mint?.mintAddress ? truncateAddress(nft.mint?.mintAddress, 8) : 'N/A'}
+                  {truncateAddress(nft.mint?.mintAddress ?? nft.to, 8)}
                 </Typography>
               </td>
               <td>
                 <Typography
                   level='body-sm'
                   component={Link}
-                  href={`${SEPOLIA_TX_BASE_URL}${nft.mint?.transactionHash}`}
+                  href={`${SEPOLIA_TX_BASE_URL}${nft.mint?.transactionHash ?? nft.transactionHash}`}
                   target='_blank'
                 >
-                  {nft.mint?.transactionHash
-                    ? truncateAddress(nft.mint?.transactionHash, 8)
-                    : 'N/A'}
+                  {truncateAddress(nft?.mint?.transactionHash ?? nft.transactionHash, 8)}
                 </Typography>
               </td>
               <td>
                 <Typography level='body-sm'>
-                  {nft.mint?.timestamp
-                    ? dayjs(nft.mint?.timestamp).format('MMM D YYYY h:mm A')
-                    : 'N/A'}
+                  {dayjs(nft.mint?.timestamp ?? nft.timeLastUpdated).format('MMM D YYYY h:mm A')}
                 </Typography>
               </td>
             </tr>
@@ -103,5 +81,5 @@ export default function RecentMintsTable() {
         })}
       </tbody>
     </Table>
-  )
+  ) : null
 }

@@ -70,6 +70,7 @@ module.exports = {
         allow: ['warn', 'error'],
       },
     ],
+    'react-hooks/exhaustive-deps': 0,
     'react/react-in-jsx-scope': 0,
     'sort-destructure-keys/sort-destructure-keys': 2,
     'sort-keys': ['error', 'asc', { caseSensitive: true, minKeys: 2, natural: false }],

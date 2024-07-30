@@ -31,10 +31,10 @@ const MyNftsPage: NextPageWithLayout = () => {
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
       <Box sx={{ alignItems: 'flex-start', display: 'flex', flexDirection: 'column', mb: 4 }}>
         <Typography fontSize='x-large' color='primary' fontWeight='bolder'>
-          You own {data.totalCount} UNIFUN
+          You own {data?.totalCount} UNIFUN
         </Typography>
         <Typography fontSize='12px'>
-          last updated {dayjs(data.validAt.blockTimestamp).format('h:mm:ss A')}
+          Last updated {dayjs(data?.validAt.blockTimestamp).format('h:mm:ss A')}
         </Typography>
       </Box>
 

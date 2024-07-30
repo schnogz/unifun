@@ -1,17 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
-import { NftContractNftsResponse } from 'alchemy-sdk'
+import { NftContractNftsResponse, Alchemy, Network, SortingOrder } from 'alchemy-sdk'
 
-import { UNI_CONTRACT_ADDRESS, ALCHEMY_API_KEY, ALCHEMY_BASE_URL } from '@/constants'
+import { UNI_CONTRACT_ADDRESS, ALCHEMY_API_KEY, NULL_ADDRESS } from '@/constants'
 
-const getNftsByContract = async () => {
-  const res = await fetch(
-    `${ALCHEMY_BASE_URL}/nft/v3/${ALCHEMY_API_KEY}/getNFTsForContract?contractAddress=${UNI_CONTRACT_ADDRESS}&limit=10&withMetadata=true&orderBy?`,
-    {
-      method: 'GET',
-    },
-  )
-  return res.json()
-}
+const alchemy = new Alchemy({
+  apiKey: ALCHEMY_API_KEY,
+  network: Network.ETH_SEPOLIA,
+})
 
 export const useFetchRecentMints = (): {
   data: NftContractNftsResponse
@@ -20,18 +15,25 @@ export const useFetchRecentMints = (): {
   refetchRecentMints: () => void
 } => {
   const {
-    data,
+    data: rawData,
     isError,
     isLoading,
     refetch: refetchRecentMints,
   } = useQuery({
-    queryFn: getNftsByContract,
+    queryFn: () =>
+      alchemy.nft.getTransfersForContract(UNI_CONTRACT_ADDRESS, {
+        order: SortingOrder.DESCENDING,
+      }),
     queryKey: ['getNftsByContract'],
     refetchOnWindowFocus: false, // just to save on API calls
   })
 
   return {
-    data,
+    data: {
+      ...rawData,
+      // by default this api will also include token transfers. filter to only mint transactions (i.e. from address is the null address) and then limit to first 10 entries
+      nfts: rawData?.nfts?.filter((event) => event.from === NULL_ADDRESS).slice(0, 10) ?? [],
+    },
     isError,
     isLoading,
     refetchRecentMints,

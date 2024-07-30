@@ -1,34 +1,45 @@
 import { useQuery } from '@tanstack/react-query'
-import { OwnedNftsResponse } from 'alchemy-sdk'
+import { OwnedNftsResponse, Alchemy, Network } from 'alchemy-sdk'
+import dayJs from 'dayjs'
 import { useAccount } from 'wagmi'
 
-import { UNI_CONTRACT_ADDRESS, ALCHEMY_API_KEY, ALCHEMY_BASE_URL } from '@/constants'
+import { ALCHEMY_API_KEY } from '@/constants'
 
-const getNftsForOwner = async (address: string) => {
-  const res = await fetch(
-    `${ALCHEMY_BASE_URL}/nft/v3/${ALCHEMY_API_KEY}/getNFTsForOwner?owner=${address}&contractAddresses[]=${UNI_CONTRACT_ADDRESS}&withMetadata=true&orderBy=transferTime&pageSize=100`,
-    {
-      method: 'GET',
-    },
-  )
-  return res.json()
-}
+const alchemy = new Alchemy({
+  apiKey: ALCHEMY_API_KEY,
+  network: Network.ETH_SEPOLIA,
+})
 
 export const useFetchNftsForOwner = (): {
-  data: OwnedNftsResponse
+  data: OwnedNftsResponse | undefined
   isError: boolean
   isLoading: boolean
 } => {
   const { address } = useAccount()
-  const { data, isError, isLoading } = useQuery({
+  const {
+    data: rawData,
+    isError,
+    isLoading,
+  } = useQuery({
     enabled: !!address,
-    queryFn: () => getNftsForOwner(address as string),
+    queryFn: () => alchemy.nft.getNftsForOwner(address as string),
     queryKey: ['getNftsByOwner'],
     refetchOnWindowFocus: false, // just to save on API calls
   })
 
   return {
-    data,
+    data: {
+      ...rawData,
+      // manually sort, ordering newly minted first
+      ownedNfts:
+        rawData?.ownedNfts?.sort((a, b) =>
+          dayJs(b.mint?.timestamp ?? b.timeLastUpdated).isAfter(
+            dayJs(a.mint?.timestamp ?? a.timeLastUpdated),
+          )
+            ? 1
+            : -1,
+        ) ?? [],
+    } as OwnedNftsResponse,
     isError,
     isLoading,
   }

@@ -9,12 +9,15 @@ import {
   CardContent,
   CardOverflow,
   AspectRatio,
+  CircularProgress,
 } from '@mui/joy'
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
 import { Alert } from '@/components/Alert'
 import RecentMintsTable from '@/components/RecentMintsTable'
 import { UNI_TOKEN_IMG } from '@/constants'
+import { useFetchRecentMints } from '@/hooks/useFetchRecentMints'
 import { useMintNft } from '@/hooks/useMintNft'
 import { AppLayout } from '@/layouts/AppLayout'
 import { NextPageWithLayout } from '@/types/layout'
@@ -23,6 +26,19 @@ import { MintStatus } from '@/types/mint'
 const HomePage: NextPageWithLayout = () => {
   const router = useRouter()
   const { mintError, mintNft, mintStatus } = useMintNft()
+  const {
+    data: recentMints,
+    isError: recentMintsError,
+    isLoading: isRecentMintsLoading,
+    refetchRecentMints,
+  } = useFetchRecentMints()
+
+  // refetch recent mints upon new mint completion
+  useEffect(() => {
+    if (mintStatus === MintStatus.COMPLETED) {
+      refetchRecentMints()
+    }
+  }, [mintStatus])
 
   return (
     <Container
@@ -51,7 +67,7 @@ const HomePage: NextPageWithLayout = () => {
           <Typography level='h1' fontWeight='xl' fontSize='3rem'>
             Satoshi&apos;s favorite NFT collection is UniFun 🎉
           </Typography>
-          <Typography fontSize='10px' textColor='gray' lineHeight='lg'>
+          <Typography fontSize='11px' textColor='gray' lineHeight='lg'>
             *The above statements may have been forged by Craig Wright
           </Typography>
         </Grid>
@@ -108,9 +124,23 @@ const HomePage: NextPageWithLayout = () => {
 
       <Box>
         <Typography fontSize='1.5rem' fontWeight='lg' sx={{ mb: 1 }}>
-          Recently Minted
+          Recent Mints
         </Typography>
-        <RecentMintsTable />
+        {(isRecentMintsLoading || recentMintsError) && (
+          <Box
+            sx={{
+              alignItems: 'center',
+              display: 'flex',
+              flex: 1,
+              justifyContent: 'center',
+              mt: 2,
+            }}
+          >
+            {isRecentMintsLoading && <CircularProgress variant='soft' size='md' />}
+            {recentMintsError && <Typography color='danger'>Failed to fetch data :(</Typography>}
+          </Box>
+        )}
+        <RecentMintsTable data={recentMints} />
       </Box>
 
       {/* following components are absolutely positioned 🤷‍ */}

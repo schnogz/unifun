@@ -1,5 +1,7 @@
+// ADDRESS
+export const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
+
 // ALCHEMY
-export const ALCHEMY_BASE_URL = 'https://eth-sepolia.g.alchemy.com'
 export const ALCHEMY_API_KEY = 'rJNTRaejmgHGpKPcDiRjhY2yWeySBMSl'
 
 // CHAIN
