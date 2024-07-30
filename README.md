@@ -83,6 +83,9 @@ there were a central state manager (Context, Redux, etc.) within the app. A few 
 I'm not a designer and many things within the app could be done better such as the sidebar, wallet connection status, 
 NFT displays, etc. There are some mobile responsive issues as well, especially with tables.
 
+### More Tests
+Many parts of the app are left untested.  There should be unit/integration tests for anything critical within the app.
+
 ### App Secrets
 API keys and other sensitive data should be injected by a build system and not checked into repo.
 
