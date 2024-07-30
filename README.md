@@ -46,9 +46,15 @@ Test coverage can be viewed by running the tests and then viewing `./coverage/in
 `RainbowKit` - Never used this before as last time I worked in Web3 space we rolled our own wallet connectors by hand. 
 That was a nightmare and this worked out of the box and extremely well with Wagmi.
 
+`React-Query` - The best fetch library on the planet.  Makes updating state, caching and re-fetching data easy!
+
 ### Alchemy RPC
 Public RPCs are too unreliable when listening for contract events and/or querying historical chain data.
 Alchemy exposes some nice NFT APIs that I used to fetch NFT metadata. I used a personal key for the API access.
+
+I noticed some oddities when querying for new chain data from Alchemy (i.e. re-fetching collection after mint).
+The shape of the data returned for the new transactions was not what was stated in their types. I'm assuming this is 
+something with their chain data ingestion system and DB.  
 
 ### Wallet Guard HOC
 I decided to wrap "authenticated" routes with a Higher Order Component that requires a wallet to be connected before 
@@ -57,8 +63,9 @@ to mint an NFT. However, given the time constraints, this made development easie
 always assume I have a connected wallet.
 
 ## If I had more time...
-### App Secrets
-API keys and other sensitive data should be injected by a build system and not checked into repo.
+### Multi-Chain/Contract Scaling
+The app is not positioned at all to scale to more chains and other types of contracts.  There are hard-codings of ABI's, 
+contract addresses, chain data, etc. throughout the app.  Ideally this would not be the case in a full-blown NFT app.
 
 ### Minting Process
 This is hobbled together with various hooks and imperfect ways of updating status. It is also responsible for popping 
@@ -66,18 +73,18 @@ the Confetti upon completion which it should have no business of doing.  Ideally
 and scalable with other contracts.
 
 ### Lack of State Management
-I think many things could be improved throughout the app could be done cleaner and be decoupled if there were a central 
-state manager (Context, Redux, etc.) within the app. A few examples:
+I think potentially many things could be improved upon (e.g. code duplication, over tight coupling, non-DRY code) if 
+there were a central state manager (Context, Redux, etc.) within the app. A few examples:
 1. The minting process and reporting of status to various components is a mess and overly coupled. 
-2. In-app Alert toasts are not implemented in a scalable fashion
+2. Re-fetching recent mint transactions are overly coupled with mint success in component that should not have to manage that interaction
+3. Modals and Alerts are not implemented in a scalable fashion
 
-### Overall Design
+### Overall Design/Screen Responsiveness
 I'm not a designer and many things within the app could be done better such as the sidebar, wallet connection status, 
-NFT displays, etc.
+NFT displays, etc. There are some mobile responsive issues as well, especially with tables.
 
-### Mobile Responsiveness
-There are a breakpoints where the app looks less than ideal. Would spend some time ensuring clean transitions between 
-all screen sizes.
+### App Secrets
+API keys and other sensitive data should be injected by a build system and not checked into repo.
 
 ## Feedback
 I understand the reasoning for vague requirements, but I was sort of unsure on how close I was supposed to follow the 
