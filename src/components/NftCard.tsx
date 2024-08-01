@@ -140,7 +140,9 @@ export default function NftCard(props: OwnedNft) {
         onClose={() => setIsTransferModalOpen(false)}
         sx={{ alignItems: 'center', display: 'flex', justifyContent: 'center' }}
       >
-        <TransferNftModal tokenId={props.tokenId} onClose={() => setIsTransferModalOpen(false)} />
+        <>
+          <TransferNftModal tokenId={props.tokenId} onClose={() => setIsTransferModalOpen(false)} />
+        </>
       </Modal>
     </Card>
   )

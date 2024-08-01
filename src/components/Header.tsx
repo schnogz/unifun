@@ -1,38 +1,34 @@
-import { MenuRounded } from '@mui/icons-material'
-import { GlobalStyles, IconButton, Sheet } from '@mui/joy'
+import { GlobalStyles, Sheet } from '@mui/joy'
 
-import { toggleSidebar } from '@/utils/sidebar'
+import { Logo } from '@/assets/Logo'
+import ColorSchemeToggle from '@/components/ColorSchemeToggle'
 
 export default function Header() {
   return (
     <Sheet
-      sx={{
+      sx={(theme) => ({
         alignItems: 'center',
-        boxShadow: 'sm',
-        display: { md: 'none', xs: 'flex' },
+        backgroundColor: theme.palette.background.body,
+        display: 'flex',
         gap: 1,
         height: 'var(--Header-height)',
         justifyContent: 'space-between',
-        p: 2,
         position: 'fixed',
+        px: 6,
+        py: 2,
         top: 0,
         width: '100vw',
-        zIndex: 9995,
-      }}
+      })}
     >
       <GlobalStyles
-        styles={(theme) => ({
+        styles={{
           ':root': {
             '--Header-height': '52px',
-            [theme.breakpoints.up('md')]: {
-              '--Header-height': '0px',
-            },
           },
-        })}
+        }}
       />
-      <IconButton onClick={() => toggleSidebar()} variant='outlined' color='neutral' size='sm'>
-        <MenuRounded />
-      </IconButton>
+      <Logo />
+      <ColorSchemeToggle />
     </Sheet>
   )
 }

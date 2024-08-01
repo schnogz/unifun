@@ -29,13 +29,20 @@ const MyNftsPage: NextPageWithLayout = () => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-      <Box sx={{ alignItems: 'flex-start', display: 'flex', flexDirection: 'column', mb: 4 }}>
-        <Typography fontSize='x-large' color='primary' fontWeight='bolder'>
-          You own {data?.totalCount} UNIFUN
-        </Typography>
-        <Typography fontSize='12px'>
-          Last updated {dayjs(data?.validAt.blockTimestamp).format('h:mm:ss A')}
-        </Typography>
+      <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+        <Box sx={{ alignItems: 'flex-start', display: 'flex', flexDirection: 'column', mb: 4 }}>
+          <Typography fontSize='x-large' color='primary' fontWeight='bolder'>
+            You own {data?.totalCount} UNIFUN
+          </Typography>
+          <Typography fontSize='12px'>
+            Last updated {dayjs(data?.validAt?.blockTimestamp ?? 0).format('h:mm:ss A')}
+          </Typography>
+        </Box>
+        <Box>
+          <Button component={Link} href='/' size='lg' color='primary'>
+            Mint Again
+          </Button>
+        </Box>
       </Box>
 
       {data?.ownedNfts.length ? (

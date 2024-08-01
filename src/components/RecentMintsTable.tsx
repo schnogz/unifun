@@ -5,12 +5,11 @@ import dayjs from 'dayjs'
 import { SEPOLIA_ADDRESS_BASE_URL, SEPOLIA_TX_BASE_URL } from '@/constants'
 import { truncateAddress } from '@/utils/address'
 
-export default function RecentMintsTable({ data }: { data: NftContractNftsResponse }) {
+export const RecentMintsTable = ({ data }: { data: NftContractNftsResponse }) => {
   return data?.nfts?.length ? (
     <Table
       size='sm'
       borderAxis='xBetween'
-      variant='outlined'
       sx={{
         '--TableCell-paddingX': '1rem',
         '--TableCell-paddingY': '1rem',

@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useReward } from 'react-rewards'
 import { useWriteContract, useAccount, useWatchContractEvent } from 'wagmi'
 
 import { UNI_CONTRACT_ABI, UNI_CONTRACT_ADDRESS } from '@/constants'
@@ -12,16 +11,6 @@ export const useMintNft = () => {
   const [walletError, setWalletError] = useState<string | undefined>(undefined)
 
   const { data: txHash, error: txSendError, writeContract } = useWriteContract()
-  const { reward: showConfetti } = useReward('newMintConfetti', 'emoji', {
-    angle: 360,
-    elementCount: 350,
-    emoji: ['🦄', '🎉'],
-    lifetime: 400,
-    position: 'absolute',
-    spread: 360,
-    startVelocity: 50,
-    zIndex: 9999,
-  })
 
   useWatchContractEvent({
     abi: UNI_CONTRACT_ABI,
@@ -36,10 +25,6 @@ export const useMintNft = () => {
         if (args.to === address) {
           setTokenId(Number(args.tokenId))
           setStatus(MintStatus.COMPLETED)
-          // need to ensure id is rendered in dom before show
-          setTimeout(() => {
-            showConfetti()
-          }, 250)
         }
       })
     },

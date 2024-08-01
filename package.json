@@ -11,7 +11,7 @@
     "clean": "rm -rf node_modules && rm -rf out",
     "ci:lint": "eslint ./src/**/* --max-warnings=0",
     "dev": "next dev",
-    "lint": "eslint './src/**/*' --fix",
+    "lint": "eslint './src/**/*{ts,tsx,js,jsx}' --fix",
     "test": "jest",
     "start": "next start",
     "prepare": "husky"
@@ -34,6 +34,7 @@
     "@tsparticles/react": "3.0.0",
     "alchemy-sdk": "3.3.1",
     "bignumber.js": "9.1.2",
+    "classnames": "2.5.1",
     "dayjs": "1.11.12",
     "next": "14.2.5",
     "react": "18.3.1",

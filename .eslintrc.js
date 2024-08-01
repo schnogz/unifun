@@ -48,6 +48,7 @@ module.exports = {
         groups: [
           ['/^next/', 'module'],
           [
+            '/^@/assets/',
             '/^@/components/',
             '/^@/constants/',
             '/^@/hocs/',

@@ -10,8 +10,6 @@ export const SEPOLIA_TX_BASE_URL = 'https://sepolia.etherscan.io/tx/'
 
 // UNIFUN
 export const UNI_CONTRACT_ADDRESS = '0xc3D8457B3d0996E3210E518A9744c17277663d2F'
-export const UNI_TOKEN_IMG =
-  'https://gateway.pinata.cloud/ipfs/QmdVHTDaxXEdDYr5aUCLJaQNY37qyajFAXrJFFTEpLuzvz'
 export const UNI_CONTRACT_ABI = [
   {
     inputs: [],
