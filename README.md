@@ -39,7 +39,7 @@ Test coverage can be viewed by running the tests and then viewing `./coverage/in
 ### Major Dependencies & Reasoning
 `NextJs` - No real reason as most benefits of Next were not used.  However, it made the live demo deploy easy.
 
-`MUI Joy` - An intuitive component library that I find nicer to use than infinite length classlists you get with something like Tailwind.
+`MUI Joy` - An intuitive component library that I personally find nicer to use than libraries like Tailwind.
 
 `Wagmi` - The 🐐. The hooks allowed me to easily interact with contract functions and not have to implement a central state manager.
 
@@ -56,11 +56,13 @@ I noticed some oddities when querying for new chain data from Alchemy (i.e. re-f
 The shape of the data returned for the new transactions was not what was stated in their types. I'm assuming this is 
 something with their chain data ingestion system and DB.  
 
-### Wallet Guard HOC
-I decided to wrap "authenticated" routes with a Higher Order Component that requires a wallet to be connected before 
-continuing to most pages.  This is not the greatest idea in terms of drawing the user into the application and getting them 
-to mint an NFT. However, given the time constraints, this made development easier and the code a bit cleaner as I could
-always assume I have a connected wallet.
+### SVG Animations
+This was probably the most challenging part for me personally. I used a mix of CSS stylesheets and inline svg properties
+to complete all the animations.  I'm sure there were probably better and more concise ways of completing this but overall 
+I'm content with how it turned out.
+
+I could not for the life of me get the minting SVG animation to start and end in the top center of the SVG path as per 
+the designs. I will probably give it another attempt before I submit the project but wanted to leave this here regardless.
 
 ## If I had more time...
 ### Multi-Chain/Contract Scaling
@@ -79,20 +81,13 @@ there were a central state manager (Context, Redux, etc.) within the app. A few 
 2. Re-fetching recent mint transactions are overly coupled with mint success in component that should not have to manage that interaction
 3. Modals and Alerts are not implemented in a scalable fashion
 
-### Overall Design/Screen Responsiveness
-I'm not a designer and many things within the app could be done better such as the sidebar, wallet connection status, 
-NFT displays, etc. There are some mobile responsive issues as well, especially with tables.
+### Pixel Peeping
+There are a few parts of the app that do not respond well to small screen sizes (e.g. the recent mints table).
+There are also a few issues with the minting animations such as the progress bar outline not exactly lining up with the 
+border of the nft image.
 
 ### More Tests
 Many parts of the app are left untested.  There should be unit/integration tests for anything critical within the app.
 
 ### App Secrets
 API keys and other sensitive data should be injected by a build system and not checked into repo.
-
-## Feedback
-I understand the reasoning for vague requirements, but I was sort of unsure on how close I was supposed to follow the 
-Figma designs vs improvise and show creativity.  The instructions sort of wobble between which of those is the top priority
-depending on which part of the instructions you are reading. 
-
-That being said, I usually opted for uniqueness and creativity in many cases and I hope that does not adversely affect 
-my overall grade.
