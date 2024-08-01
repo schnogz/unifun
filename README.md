@@ -53,8 +53,11 @@ Public RPCs are too unreliable when listening for contract events and/or queryin
 Alchemy exposes some nice NFT APIs that I used to fetch NFT metadata. I used a personal key for the API access.
 
 I noticed some oddities when querying for new chain data from Alchemy (i.e. re-fetching collection after mint).
-The shape of the data returned for the new transactions was not what was stated in their types. I'm assuming this is 
-something with their chain data ingestion system and DB.  
+The shape of the data returned for the new transactions was not what was stated in the TS types. I'm assuming this is 
+something with the way their chain data ingestion system works.
+
+Due to limitation of API calls allowed for a free account, I had to also disable some nice auto re-fetching that react-query 
+provides to ensure I did not burn all of my credits during development.
 
 ### SVG Animations
 This was probably the most challenging part for me personally. I used a mix of CSS stylesheets and inline svg properties
@@ -75,16 +78,18 @@ the Confetti upon completion which it should have no business of doing.  Ideally
 and scalable with other contracts.
 
 ### Lack of State Management
-I think potentially many things could be improved upon (e.g. code duplication, over tight coupling, non-DRY code) if 
+I think potentially many things could be improved upon (e.g. code duplication, overly tight coupling, non-DRY code) if 
 there were a central state manager (Context, Redux, etc.) within the app. A few examples:
-1. The minting process and reporting of status to various components is a mess and overly coupled. 
-2. Re-fetching recent mint transactions are overly coupled with mint success in component that should not have to manage that interaction
+1. The minting process and reporting of status to various components is a bit messy and overly coupled. 
+2. Fetching recent mint transactions is not great. It only updates when a mint occurs within the app (and is coupled too 
+tightly with that process).  If I had better state management and more API calls, I would auto update that on an interval
+using react-query built-ins, as well as re-fetching after a successful mint within the app.
 3. Modals and Alerts are not implemented in a scalable fashion
 
 ### Pixel Peeping
 There are a few parts of the app that do not respond well to small screen sizes (e.g. the recent mints table).
 There are also a few issues with the minting animations such as the progress bar outline not exactly lining up with the 
-border of the nft image.
+border of the nft image as well as some ghost box shadows around the nft if you look really closely.
 
 ### More Tests
 Many parts of the app are left untested.  There should be unit/integration tests for anything critical within the app.
