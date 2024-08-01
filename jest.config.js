@@ -4,7 +4,6 @@ module.exports = {
     '<rootDir>/src/**/*.*',
     '!**/*.d.ts',
     '!**/node_modules/**',
-    '!./src/constants/**',
     '!./src/styles/**',
     '!./src/types/**',
   ],
@@ -12,6 +11,8 @@ module.exports = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json', 'jsx'],
   moduleNameMapper: {
     '^@/components/(.*)$': '<rootDir>/src/components/$1',
+    '^@/constants': '<rootDir>/src/constants',
+    '^@/constants/(.*)$': '<rootDir>/src/constants/$1',
     '^@/hooks(.*)$': '<rootDir>/src/hooks$1',
     '^@/layouts(.*)$': '<rootDir>/src/layouts$1',
     '^@/pages/(.*)$': '<rootDir>/src/pages/$1',

@@ -97,7 +97,8 @@ There are also a few issues with the minting animations such as the progress bar
 border of the nft image as well as some ghost box shadows around the nft if you look really closely.
 
 ### More Tests
-Many parts of the app are left untested.  There should be unit/integration tests for anything critical within the app.
+The most important parts of the app are very well tested. However, there is a lot of logic in the templates and layouts 
+that is currently untested. There should be unit/integration tests for critical template logic within the app.
 
 ### App Secrets
 API keys and other sensitive data should be injected by a build system and not checked into repo.
