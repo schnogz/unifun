@@ -41,7 +41,8 @@ Test coverage can be viewed by running the tests and then viewing `./coverage/in
 
 `MUI Joy` - An intuitive component library that I personally find nicer to use than libraries like Tailwind.
 
-`Wagmi` - The 🐐. The hooks allowed me to easily interact with contract functions and not have to implement a central state manager.
+`Wagmi/Viem` - The 🐐's. The hooks allowed me to easily interact with contract functions, see gas prices, etc. and therefore
+not have to implement a central state manager.
 
 `RainbowKit` - Never used this before as last time I worked in Web3 space we rolled our own wallet connectors by hand. 
 That was a nightmare and this worked out of the box and extremely well with Wagmi.
@@ -66,6 +67,10 @@ I'm content with how it turned out.
 
 I could not for the life of me get the minting SVG animation to start and end in the top center of the SVG path as per 
 the designs. I will probably give it another attempt before I submit the project but wanted to leave this here regardless.
+
+### NFT Transferring
+I added the ability to transfer NFTs that a wallet owns to another address.  I was also going to add a 'Burn' option but 
+ran out of time.
 
 ## If I had more time...
 ### Multi-Chain/Contract Scaling
