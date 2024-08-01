@@ -12,7 +12,6 @@ module.exports = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json', 'jsx'],
   moduleNameMapper: {
     '^@/components/(.*)$': '<rootDir>/src/components/$1',
-    '^@/hocs(.*)$': '<rootDir>/src/hocs$1',
     '^@/hooks(.*)$': '<rootDir>/src/hooks$1',
     '^@/layouts(.*)$': '<rootDir>/src/layouts$1',
     '^@/pages/(.*)$': '<rootDir>/src/pages/$1',
