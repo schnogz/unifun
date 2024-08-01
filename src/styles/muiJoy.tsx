@@ -9,6 +9,7 @@ export default extendTheme({
         background: {
           body: '#0a0a0a',
           surface: 'var(--joy-palette-neutral-900)',
+          level1: 'var(--joy-palette-neutral-800)',
         },
         primary: {
           50: '#3F1433',
@@ -33,6 +34,7 @@ export default extendTheme({
         background: {
           body: '#f0f4f8',
           surface: 'var(--joy-palette-neutral-100)',
+          level1: 'var(--joy-palette-neutral-200)',
         },
         primary: {
           50: '#FEE4FF',

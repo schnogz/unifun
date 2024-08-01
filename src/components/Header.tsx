@@ -1,4 +1,5 @@
-import { GlobalStyles, Sheet } from '@mui/joy'
+import { GlobalStyles, Sheet, Box } from '@mui/joy'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
 
 import { Logo } from '@/assets/Logo'
 import ColorSchemeToggle from '@/components/ColorSchemeToggle'
@@ -18,6 +19,7 @@ export default function Header() {
         py: 2,
         top: 0,
         width: '100vw',
+        zIndex: 9999,
       })}
     >
       <GlobalStyles
@@ -28,7 +30,11 @@ export default function Header() {
         }}
       />
       <Logo />
-      <ColorSchemeToggle />
+
+      <Box sx={{ display: 'flex', gap: 1 }}>
+        <ColorSchemeToggle />
+        <ConnectButton />
+      </Box>
     </Sheet>
   )
 }

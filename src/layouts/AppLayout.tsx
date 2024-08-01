@@ -2,8 +2,6 @@ import { Box } from '@mui/joy'
 import { PropsWithChildren } from 'react'
 
 import Header from '@/components/Header'
-import Sidebar from '@/components/Sidebar'
-import { withWalletGuard } from '@/hocs/withWalletGuard'
 
 export const AppLayout = ({ children }: PropsWithChildren) => {
   return (
@@ -18,7 +16,8 @@ export const AppLayout = ({ children }: PropsWithChildren) => {
           flex: 1,
           height: '100dvh',
           overflow: 'scroll',
-          pt: 10,
+          pt: 12,
+          px: 6,
         }}
       >
         {children}

@@ -4,6 +4,8 @@ import classNames from 'classnames'
 import { useRouter } from 'next/router'
 import { useEffect, useRef } from 'react'
 import { useReward } from 'react-rewards'
+import { useAccount } from 'wagmi'
+import { sepolia } from 'wagmi/chains'
 
 import { UnifunNft } from '@/assets/UnifunNft'
 import { Alert } from '@/components/Alert'
@@ -17,6 +19,8 @@ import { MintStatus } from '@/types/mint'
 const HomePage: NextPageWithLayout = () => {
   const router = useRouter()
   const { mintError, mintNft, mintStatus } = useMintNft()
+  const { address, chainId } = useAccount()
+
   const {
     data: recentMints,
     isError: recentMintsError,
@@ -26,6 +30,7 @@ const HomePage: NextPageWithLayout = () => {
 
   const initialAnimateRef = useRef<SVGAnimateElement | null>(null)
   const bounceAnimateRef = useRef<SVGAnimateElement | null>(null)
+  const isMintDisabled = !address || chainId !== sepolia.id
 
   const { reward: showConfetti } = useReward('newMintConfetti', 'emoji', {
     angle: 360,
@@ -94,51 +99,50 @@ const HomePage: NextPageWithLayout = () => {
             'z-index': 999,
           }}
         >
-          {/*<div className='mint-overlay-container'>*/}
-          <UnifunNft />
-          {/*<img src={UNI_TOKEN_IMG} loading='lazy' alt='unifun nft' />*/}
-          {/*<svg width='250' height='250' viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'>*/}
-          {/*  <defs>*/}
-          {/*    <mask id='mask'>*/}
-          {/*      <rect x='0' y='0' width='250' height='250' rx='50' fill='#fff' />*/}
-          {/*    </mask>*/}
-          {/*  </defs>*/}
-          {/*  <rect*/}
-          {/*    x='0'*/}
-          {/*    y='0'*/}
-          {/*    width='250'*/}
-          {/*    height='250'*/}
-          {/*    rx='50'*/}
-          {/*    fill='none'*/}
-          {/*    stroke='deeppink'*/}
-          {/*    strokeWidth='12'*/}
-          {/*    mask='url(#mask)'*/}
-          {/*    strokeDasharray='1060'*/}
-          {/*    strokeDashoffset='1060'*/}
-          {/*  >*/}
-          {/*    /!* normal progress bar up until about 85% complete until freeze *!/*/}
-          {/*    <animate*/}
-          {/*      ref={initialAnimateRef}*/}
-          {/*      attributeName='stroke-dashoffset'*/}
-          {/*      begin='indefinite'*/}
-          {/*      from='1060'*/}
-          {/*      to='212'*/}
-          {/*      dur='15s'*/}
-          {/*      fill='freeze'*/}
-          {/*    />*/}
-          {/*    /!* if mint is not complete yet, animate another progress bar near that bounces near completion *!/*/}
-          {/*    <animate*/}
-          {/*      ref={bounceAnimateRef}*/}
-          {/*      attributeName='stroke-dashoffset'*/}
-          {/*      begin='indefinite'*/}
-          {/*      values='212; 191; 212'*/}
-          {/*      keyTimes='0; 0.25; 1'*/}
-          {/*      dur='1s'*/}
-          {/*      repeatCount='indefinite'*/}
-          {/*    />*/}
-          {/*  </rect>*/}
-          {/*</svg>*/}
-          {/*</div>*/}
+          <div className='mint-overlay-container'>
+            <UnifunNft />
+            <svg width='250' height='250' viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'>
+              <defs>
+                <mask id='mask'>
+                  <rect x='0' y='0' width='250' height='250' rx='48' fill='#fff' />
+                </mask>
+              </defs>
+              <rect
+                x='0'
+                y='0'
+                width='250'
+                height='250'
+                rx='48'
+                fill='none'
+                stroke='#FC72FF'
+                strokeWidth='12'
+                mask='url(#mask)'
+                strokeDasharray='1060'
+                strokeDashoffset='1060'
+              >
+                {/* normal progress bar up until about 85% complete until freeze */}
+                <animate
+                  ref={initialAnimateRef}
+                  attributeName='stroke-dashoffset'
+                  begin='indefinite'
+                  from='1060'
+                  to='212'
+                  dur='15s'
+                  fill='freeze'
+                />
+                {/* if mint is not complete yet, animate another progress bar near that bounces near completion */}
+                <animate
+                  ref={bounceAnimateRef}
+                  attributeName='stroke-dashoffset'
+                  begin='indefinite'
+                  values='212; 191; 212'
+                  keyTimes='0; 0.25; 1'
+                  dur='1s'
+                  repeatCount='indefinite'
+                />
+              </rect>
+            </svg>
+          </div>
         </Card>
 
         <Typography fontSize='13px' color='primary' fontWeight='bold'>
@@ -150,6 +154,7 @@ const HomePage: NextPageWithLayout = () => {
           loading={
             mintStatus === MintStatus.PENDING_TX_SEND || mintStatus === MintStatus.PENDING_MINT
           }
+          disabled={isMintDisabled}
           loadingPosition='start'
           color={mintStatus === MintStatus.COMPLETED ? 'success' : 'primary'}
           onClick={() => (mintStatus === MintStatus.COMPLETED ? router.push('/myNfts') : mintNft())}

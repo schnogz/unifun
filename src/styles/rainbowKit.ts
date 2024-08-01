@@ -1,15 +1,19 @@
 import { darkTheme, lightTheme } from '@rainbow-me/rainbowkit'
 
 const darkRainbowKitTheme = darkTheme({
-  accentColor: '#e91e63',
-  accentColorForeground: 'white',
+  accentColor: '#FC72FF',
+  accentColorForeground: '#000',
   borderRadius: 'medium',
+  fontStack: 'system',
+  overlayBlur: 'small',
 })
 
 const lightRainbowKitTheme = lightTheme({
-  accentColor: '#e91e63',
-  accentColorForeground: 'white',
+  accentColor: '#FC72FF',
+  accentColorForeground: '#FFFFFF',
   borderRadius: 'medium',
+  fontStack: 'system',
+  overlayBlur: 'small',
 })
 
 export { darkRainbowKitTheme, lightRainbowKitTheme }

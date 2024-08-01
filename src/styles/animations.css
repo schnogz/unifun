@@ -55,5 +55,5 @@
 }
 
 .mint-complete:after {
-	filter: blur(30px);
+	filter: blur(20px);
 }

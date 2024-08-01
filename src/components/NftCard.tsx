@@ -25,10 +25,11 @@ export default function NftCard(props: OwnedNft) {
 
   return (
     <Card
-      sx={{
+      sx={(theme) => ({
+        backgroundColor: theme.palette.background.level1,
         p: 2,
         width: 300,
-      }}
+      })}
     >
       {/* Card Header */}
       <Box sx={{ alignItems: 'center', display: 'flex', gap: 1, justifyContent: 'space-between' }}>
