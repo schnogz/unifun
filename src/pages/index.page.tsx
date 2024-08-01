@@ -1,5 +1,14 @@
 import { FavoriteBorderRounded, PhotoLibraryRounded } from '@mui/icons-material'
-import { Button, Box, Container, Stack, Card, Typography, CircularProgress } from '@mui/joy'
+import {
+  Button,
+  Box,
+  Container,
+  Stack,
+  Card,
+  Typography,
+  CircularProgress,
+  Skeleton,
+} from '@mui/joy'
 import classNames from 'classnames'
 import { useRouter } from 'next/router'
 import { useEffect, useRef } from 'react'
@@ -10,6 +19,7 @@ import { sepolia } from 'wagmi/chains'
 import { UnifunNft } from '@/assets/UnifunNft'
 import { Alert } from '@/components/Alert'
 import { RecentMintsTable } from '@/components/RecentMintsTable'
+import { useEstimateMintFee } from '@/hooks/useEstimateMintFee'
 import { useFetchNftsForOwner } from '@/hooks/useFetchNftsForOwner'
 import { useFetchRecentMints } from '@/hooks/useFetchRecentMints'
 import { useMintNft } from '@/hooks/useMintNft'
@@ -21,7 +31,12 @@ const HomePage: NextPageWithLayout = () => {
   const router = useRouter()
   const { mintError, mintNft, mintStatus } = useMintNft()
   const { address, chainId } = useAccount()
-  const { data: nftOwnerData, refetchNftsForOwner } = useFetchNftsForOwner()
+  const {
+    data: nftOwnerData,
+    isLoading: nftOwnerDataLoading,
+    refetchNftsForOwner,
+  } = useFetchNftsForOwner()
+  const { estimatedMintFee, isLoading: estimatedMintFeeLoading } = useEstimateMintFee()
 
   const {
     data: recentMints,
@@ -152,8 +167,14 @@ const HomePage: NextPageWithLayout = () => {
         {mintStatus !== MintStatus.PENDING_TX_SEND && mintStatus !== MintStatus.PENDING_MINT && (
           <>
             <Typography fontSize='13px' color='primary' fontWeight='bold'>
-              0.XXXX SEP • {address && nftOwnerData?.totalCount ? nftOwnerData?.totalCount : '0'}
-              /100 minted
+              <Skeleton
+                sx={{ borderRadius: 4 }}
+                loading={nftOwnerDataLoading || estimatedMintFeeLoading}
+              >
+                {estimatedMintFee.substring(0, 10)} SEP •{' '}
+                {address && nftOwnerData?.totalCount ? nftOwnerData?.totalCount : '0'}
+                /100 minted
+              </Skeleton>
             </Typography>
 
             {isNftOwnedLimitReached ? (

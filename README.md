@@ -73,9 +73,9 @@ The app is not positioned at all to scale to more chains and other types of cont
 contract addresses, chain data, etc. throughout the app.  Ideally this would not be the case in a full-blown NFT app.
 
 ### Minting Process
-This is hobbled together with various hooks and imperfect ways of updating status. It is also responsible for popping 
-the Confetti upon completion which it should have no business of doing.  Ideally this would be refactored to be more DRY 
-and scalable with other contracts.
+This is hobbled together with various hooks and imperfect ways of updating status. There are also side effects that upon 
+mint completion results in multiple re-fetching of other data that could be done better.  Ideally this would be refactored 
+not only be more DRY but also scalable with other contracts and scenarios.
 
 ### Lack of State Management
 I think potentially many things could be improved upon (e.g. code duplication, overly tight coupling, non-DRY code) if 
