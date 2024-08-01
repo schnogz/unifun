@@ -87,7 +87,7 @@ const HomePage: NextPageWithLayout = () => {
     >
       <Stack sx={{ alignItems: 'center', display: 'flex', gap: 2 }}>
         <Card
-          className={classNames({ 'mint-complete': mintStatus === MintStatus.COMPLETED })}
+          className={classNames({ 'mint-complete-bg': mintStatus === MintStatus.COMPLETED })}
           variant='plain'
           sx={{
             borderRadius: 0,
@@ -100,7 +100,7 @@ const HomePage: NextPageWithLayout = () => {
           }}
         >
           <div className='mint-overlay-container'>
-            <UnifunNft />
+            <UnifunNft isMinting={mintStatus === MintStatus.PENDING_MINT} />
             <svg width='250' height='250' viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'>
               <defs>
                 <mask id='mask'>
@@ -115,7 +115,7 @@ const HomePage: NextPageWithLayout = () => {
                 rx='48'
                 fill='none'
                 stroke='#FC72FF'
-                strokeWidth='12'
+                strokeWidth='18'
                 mask='url(#mask)'
                 strokeDasharray='1060'
                 strokeDashoffset='1060'

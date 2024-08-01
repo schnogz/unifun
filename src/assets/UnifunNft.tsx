@@ -1,7 +1,7 @@
 import React, { SVGProps } from 'react'
 type TSVGElementProps = SVGProps<SVGSVGElement>
 
-export const UnifunNft = (props: TSVGElementProps) => (
+export const UnifunNft = (props: TSVGElementProps & { isMinting?: boolean }) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     width={250}
@@ -10,6 +10,7 @@ export const UnifunNft = (props: TSVGElementProps) => (
       background: 'transparent',
       clipRule: 'evenodd',
       fillRule: 'evenodd',
+      filter: props.isMinting ? 'grayscale(1)' : '',
     }}
     viewBox='0 0 400 400'
     {...props}

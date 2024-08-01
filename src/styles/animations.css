@@ -1,3 +1,4 @@
+
 /* MINT PROGRESS SVG OVERLAY */
 .mint-overlay-container {
 	position: relative;
@@ -25,8 +26,8 @@
 }
 
 /* MINT COMPLETE BORDER ANIMATION */
-.mint-complete:before,
-.mint-complete:after {
+.mint-complete-bg:before,
+.mint-complete-bg:after {
 	content: '';
 	position: absolute;
 	left: -2px;
@@ -54,6 +55,6 @@
 	}
 }
 
-.mint-complete:after {
+.mint-complete-bg:after {
 	filter: blur(20px);
 }
