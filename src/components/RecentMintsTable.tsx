@@ -50,7 +50,7 @@ export const RecentMintsTable = ({ data }: { data: NftContractNftsResponse }) =>
         <tbody>
           {data?.nfts?.map((nft: Nft & { to?: string; transactionHash?: string }) => {
             return (
-              <tr key={nft.tokenId}>
+              <tr key={nft.tokenId} className='table-row-entry'>
                 <td>
                   <Typography level='title-sm' sx={{ alignItems: 'flex-start' }}>
                     #{nft.tokenId}

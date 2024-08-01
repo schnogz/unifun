@@ -14,12 +14,14 @@ export const useFetchNftsForOwner = (): {
   data: OwnedNftsResponse | undefined
   isError: boolean
   isLoading: boolean
+  refetchNftsForOwner: () => void
 } => {
   const { address } = useAccount()
   const {
     data: rawData,
     isError,
     isLoading,
+    refetch: refetchNftsForOwner,
   } = useQuery({
     enabled: !!address,
     queryFn: () => alchemy.nft.getNftsForOwner(address as string),
@@ -42,5 +44,6 @@ export const useFetchNftsForOwner = (): {
     } as OwnedNftsResponse,
     isError,
     isLoading,
+    refetchNftsForOwner,
   }
 }

@@ -10,6 +10,7 @@ import { sepolia } from 'wagmi/chains'
 import { UnifunNft } from '@/assets/UnifunNft'
 import { Alert } from '@/components/Alert'
 import { RecentMintsTable } from '@/components/RecentMintsTable'
+import { useFetchNftsForOwner } from '@/hooks/useFetchNftsForOwner'
 import { useFetchRecentMints } from '@/hooks/useFetchRecentMints'
 import { useMintNft } from '@/hooks/useMintNft'
 import { AppLayout } from '@/layouts/AppLayout'
@@ -20,6 +21,7 @@ const HomePage: NextPageWithLayout = () => {
   const router = useRouter()
   const { mintError, mintNft, mintStatus } = useMintNft()
   const { address, chainId } = useAccount()
+  const { data: nftOwnerData, refetchNftsForOwner } = useFetchNftsForOwner()
 
   const {
     data: recentMints,
@@ -31,6 +33,7 @@ const HomePage: NextPageWithLayout = () => {
   const initialAnimateRef = useRef<SVGAnimateElement | null>(null)
   const bounceAnimateRef = useRef<SVGAnimateElement | null>(null)
   const isMintDisabled = !address || chainId !== sepolia.id
+  const isNftOwnedLimitReached = (nftOwnerData?.totalCount ?? 0) >= 100
 
   const { reward: showConfetti } = useReward('newMintConfetti', 'emoji', {
     angle: 360,
@@ -73,6 +76,7 @@ const HomePage: NextPageWithLayout = () => {
         )
       }
       refetchRecentMints()
+      refetchNftsForOwner()
       showConfetti()
     }
   }, [mintStatus])
@@ -145,32 +149,52 @@ const HomePage: NextPageWithLayout = () => {
           </div>
         </Card>
 
-        <Typography fontSize='13px' color='primary' fontWeight='bold'>
-          0.XXXX SEP • XX/100 minted
-        </Typography>
+        {mintStatus !== MintStatus.PENDING_TX_SEND && mintStatus !== MintStatus.PENDING_MINT && (
+          <>
+            <Typography fontSize='13px' color='primary' fontWeight='bold'>
+              0.XXXX SEP • {address && nftOwnerData?.totalCount ? nftOwnerData?.totalCount : '0'}
+              /100 minted
+            </Typography>
 
-        <Button
-          size='lg'
-          loading={
-            mintStatus === MintStatus.PENDING_TX_SEND || mintStatus === MintStatus.PENDING_MINT
-          }
-          disabled={isMintDisabled}
-          loadingPosition='start'
-          color={mintStatus === MintStatus.COMPLETED ? 'success' : 'primary'}
-          onClick={() => (mintStatus === MintStatus.COMPLETED ? router.push('/myNfts') : mintNft())}
-          startDecorator={
-            mintStatus === MintStatus.COMPLETED ? (
-              <PhotoLibraryRounded />
+            {isNftOwnedLimitReached ? (
+              <Typography level='body-sm' lineHeight='1.5rem' textAlign='center'>
+                You have reached the maximum amount of NFTs owned. <br />
+                Thanks for supporting us! ❤️
+              </Typography>
             ) : (
-              <FavoriteBorderRounded />
-            )
-          }
-        >
-          {(mintStatus === MintStatus.NOT_STARTED || mintStatus === MintStatus.ERROR) && 'Mint'}
-          {mintStatus === MintStatus.PENDING_TX_SEND && 'Pending TX'}
-          {mintStatus === MintStatus.PENDING_MINT && 'Minting'}
-          {mintStatus === MintStatus.COMPLETED && 'View NFT'}
-        </Button>
+              <Button
+                size='lg'
+                disabled={isMintDisabled}
+                loadingPosition='start'
+                color={mintStatus === MintStatus.COMPLETED ? 'success' : 'primary'}
+                onClick={() =>
+                  mintStatus === MintStatus.COMPLETED ? router.push('/myNfts') : mintNft()
+                }
+                endDecorator={
+                  mintStatus === MintStatus.COMPLETED ? (
+                    <PhotoLibraryRounded />
+                  ) : (
+                    <FavoriteBorderRounded />
+                  )
+                }
+              >
+                {(mintStatus === MintStatus.NOT_STARTED || mintStatus === MintStatus.ERROR) &&
+                  'Mint'}
+                {mintStatus === MintStatus.COMPLETED && 'View NFT'}
+              </Button>
+            )}
+          </>
+        )}
+        {mintStatus === MintStatus.PENDING_TX_SEND && (
+          <Typography level='body-sm' className='pulsate-text'>
+            Waiting for transaction…
+          </Typography>
+        )}
+        {mintStatus === MintStatus.PENDING_MINT && (
+          <Typography level='body-sm' className='pulsate-text'>
+            Minting NFT…
+          </Typography>
+        )}
       </Stack>
 
       <Box>
