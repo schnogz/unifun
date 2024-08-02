@@ -35,8 +35,8 @@ export const useFetchNftsForOwner = (): {
       // manually sort, ordering newly minted first
       ownedNfts:
         rawData?.ownedNfts?.sort((a, b) =>
-          dayJs(b.mint?.timestamp ?? b.timeLastUpdated).isAfter(
-            dayJs(a.mint?.timestamp ?? a.timeLastUpdated),
+          dayJs(b.mint?.timestamp ?? b?.timeLastUpdated).isAfter(
+            dayJs(a.mint?.timestamp ?? a?.timeLastUpdated),
           )
             ? 1
             : -1,

@@ -7,6 +7,8 @@ import { useFetchNftsForOwner } from '@/hooks/useFetchNftsForOwner'
 import { AppLayout } from '@/layouts/AppLayout'
 import { NextPageWithLayout } from '@/types/layout'
 
+const currentDate = new Date()
+
 const MyNftsPage: NextPageWithLayout = () => {
   const { data, isError, isLoading } = useFetchNftsForOwner()
 
@@ -35,14 +37,16 @@ const MyNftsPage: NextPageWithLayout = () => {
             You own {data?.totalCount} UNIFUN
           </Typography>
           <Typography fontSize='12px'>
-            Last updated {dayjs(data?.validAt?.blockTimestamp ?? 0).format('h:mm:ss A')}
+            Last updated {dayjs(data?.validAt?.blockTimestamp ?? currentDate).format('h:mm:ss A')}
           </Typography>
         </Box>
-        <Box>
-          <Button component={Link} href='/' size='lg' color='primary'>
-            Mint Again
-          </Button>
-        </Box>
+        {data?.totalCount && (
+          <Box>
+            <Button component={Link} href='/' size='lg' color='primary'>
+              Mint Again
+            </Button>
+          </Box>
+        )}
       </Box>
 
       {data?.ownedNfts.length ? (

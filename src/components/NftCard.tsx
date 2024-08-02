@@ -62,9 +62,9 @@ export default function NftCard(props: OwnedNft) {
       <AspectRatio objectFit='scale-down' minHeight={275}>
         <figure>
           <img
-            src={props.image.cachedUrl ?? props.image.originalUrl}
+            src={props.image?.cachedUrl ?? props.image?.originalUrl}
             loading='lazy'
-            alt={`${props.contract.symbol} #${props.tokenId}`}
+            alt={`${props.contract?.symbol} #${props.tokenId}`}
           />
         </figure>
       </AspectRatio>
@@ -96,7 +96,7 @@ export default function NftCard(props: OwnedNft) {
           >
             <Typography sx={{ fontSize: 'md', fontWeight: 'md' }}>Description</Typography>
             <Typography fontSize='sm' textColor='text.tertiary'>
-              {props.raw.metadata.description}
+              {props.raw?.metadata?.description}
             </Typography>
           </Box>
         )}
