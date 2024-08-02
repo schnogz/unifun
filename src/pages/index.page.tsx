@@ -173,8 +173,9 @@ const HomePage: NextPageWithLayout = () => {
             >
               <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                 <Typography fontSize='13px' color='primary' fontWeight='bold'>
-                  {estimatedMintFee.substring(0, 10)} SEP •{' '}
-                </Typography>{' '}
+                  {estimatedMintFee.substring(0, 10)} SEP •
+                </Typography>
+                &nbsp;
                 <Typography
                   component={Link}
                   href='/myNfts'
