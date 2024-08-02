@@ -10,6 +10,7 @@ import {
   Skeleton,
 } from '@mui/joy'
 import classNames from 'classnames'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useRef } from 'react'
 import { useReward } from 'react-rewards'
@@ -166,16 +167,27 @@ const HomePage: NextPageWithLayout = () => {
 
         {mintStatus !== MintStatus.PENDING_TX_SEND && mintStatus !== MintStatus.PENDING_MINT && (
           <>
-            <Typography fontSize='13px' color='primary' fontWeight='bold'>
-              <Skeleton
-                sx={{ borderRadius: 4 }}
-                loading={nftOwnerDataLoading || estimatedMintFeeLoading}
-              >
-                {estimatedMintFee.substring(0, 10)} SEP •{' '}
-                {address && nftOwnerData?.totalCount ? nftOwnerData?.totalCount : '0'}
-                /100 minted
-              </Skeleton>
-            </Typography>
+            <Skeleton
+              sx={{ borderRadius: 4 }}
+              loading={nftOwnerDataLoading || estimatedMintFeeLoading}
+            >
+              <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                <Typography fontSize='13px' color='primary' fontWeight='bold'>
+                  {estimatedMintFee.substring(0, 10)} SEP •{' '}
+                </Typography>{' '}
+                <Typography
+                  component={Link}
+                  href='/myNfts'
+                  fontSize='13px'
+                  color='primary'
+                  fontWeight='bold'
+                  sx={{ textDecoration: 'none' }}
+                >
+                  {address && nftOwnerData?.totalCount ? nftOwnerData?.totalCount : '0'}
+                  /100 minted
+                </Typography>
+              </Box>
+            </Skeleton>
 
             {isNftOwnedLimitReached ? (
               <Typography level='body-sm' lineHeight='1.5rem' textAlign='center'>
