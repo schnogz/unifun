@@ -124,7 +124,7 @@ const HomePage: NextPageWithLayout = () => {
             <svg width='250' height='250' viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'>
               <defs>
                 <mask id='mask'>
-                  <rect x='0' y='0' width='250' height='250' rx='48' fill='#fff' />
+                  <rect x='0' y='0' width='250' height='250' rx='46' fill='#fff' />
                 </mask>
               </defs>
               <rect
@@ -132,7 +132,7 @@ const HomePage: NextPageWithLayout = () => {
                 y='0'
                 width='250'
                 height='250'
-                rx='48'
+                rx='46'
                 fill='none'
                 stroke='#FC72FF'
                 strokeWidth='18'

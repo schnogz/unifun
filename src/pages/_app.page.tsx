@@ -13,7 +13,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     <>
       <Head>
         <title>UNIFUN</title>
-        <link rel='icon' href='https://uniswap.org/favicon.ico' />
+        <link rel='icon' href='/favicon.ico' />
       </Head>
       <StyleProvider>
         <Web3Provider>{getLayout(<Component {...pageProps} />)}</Web3Provider>
