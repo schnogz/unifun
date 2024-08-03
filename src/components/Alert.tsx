@@ -45,6 +45,7 @@ export const Alert = ({ message, title, type }: AlertProps) => {
 
   return isShowing ? (
     <Box
+      component='div'
       sx={{
         bottom: 25,
         display: 'flex',

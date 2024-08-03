@@ -31,7 +31,7 @@ export default function Header() {
       />
       <Logo />
 
-      <Box sx={{ display: 'flex', gap: 1 }}>
+      <Box sx={{ display: 'flex', gap: 1 }} component='div'>
         <ColorSchemeToggle />
         <ConnectButton />
       </Box>

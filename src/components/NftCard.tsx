@@ -15,7 +15,7 @@ import {
 } from '@mui/joy'
 import { OwnedNft } from 'alchemy-sdk'
 import dayjs from 'dayjs'
-import { useState } from 'react'
+import { ElementRef, ElementType, useState } from 'react'
 
 import TransferNftModal from '@/components/TransferNftModal'
 import { SEPOLIA_TX_BASE_URL } from '@/constants'
@@ -32,14 +32,17 @@ export default function NftCard(props: OwnedNft) {
       })}
     >
       {/* Card Header */}
-      <Box sx={{ alignItems: 'center', display: 'flex', gap: 1, justifyContent: 'space-between' }}>
-        <Box>
+      <Box
+        component='div'
+        sx={{ alignItems: 'center', display: 'flex', gap: 1, justifyContent: 'space-between' }}
+      >
+        <Box component='div'>
           <Typography sx={{ fontSize: 'md', fontWeight: 'md' }}>
             {props.contract.symbol} #{props.tokenId}
           </Typography>
           <Typography
             fontSize='11px'
-            component={Link}
+            component={Link as ElementRef<ElementType>}
             href={`${SEPOLIA_TX_BASE_URL}${props.mint?.transactionHash}`}
             target='_blank'
             textColor='text.tertiary'
@@ -70,8 +73,12 @@ export default function NftCard(props: OwnedNft) {
       </AspectRatio>
 
       {/* Card Footer */}
-      <Box sx={{ alignItems: 'flex-start', display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+      <Box
+        component='div'
+        sx={{ alignItems: 'flex-start', display: 'flex', flexDirection: 'column', gap: 0.5 }}
+      >
         <Box
+          component='div'
           sx={{
             display: 'flex',
             flexDirection: 'row',
@@ -87,6 +94,7 @@ export default function NftCard(props: OwnedNft) {
 
         {props.raw?.metadata?.description && (
           <Box
+            component='div'
             sx={{
               display: 'flex',
               flexDirection: 'row',
@@ -103,6 +111,7 @@ export default function NftCard(props: OwnedNft) {
 
         {props.raw?.metadata?.attributes.length && (
           <Box
+            component='div'
             sx={{
               display: 'flex',
               flexDirection: 'row',

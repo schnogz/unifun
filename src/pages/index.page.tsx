@@ -12,7 +12,7 @@ import {
 import classNames from 'classnames'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, ElementRef, ElementType } from 'react'
 import { useReward } from 'react-rewards'
 import { useAccount } from 'wagmi'
 import { sepolia } from 'wagmi/chains'
@@ -66,11 +66,11 @@ const HomePage: NextPageWithLayout = () => {
     // start mint progress SVGs
     if (mintStatus === MintStatus.PENDING_MINT) {
       if (initialAnimateRef.current) {
-        initialAnimateRef.current.beginElement()
+        initialAnimateRef.current?.beginElement()
       }
       setTimeout(() => {
         if (bounceAnimateRef.current) {
-          bounceAnimateRef.current.beginElement()
+          bounceAnimateRef.current?.beginElement()
         }
       }, 15_000)
     }
@@ -78,17 +78,17 @@ const HomePage: NextPageWithLayout = () => {
     // hide mint progress SVGs and refetch recent mints upon new mint completion
     if (mintStatus === MintStatus.COMPLETED) {
       if (initialAnimateRef.current) {
-        initialAnimateRef.current.removeAttribute('begin')
-        initialAnimateRef.current.setAttribute(
+        initialAnimateRef.current?.removeAttribute('begin')
+        initialAnimateRef.current?.setAttribute(
           'to',
-          initialAnimateRef.current.getAttribute('from') || '1060',
+          initialAnimateRef.current?.getAttribute('from') || '1060',
         )
       }
       if (bounceAnimateRef.current) {
-        bounceAnimateRef.current.removeAttribute('begin')
-        bounceAnimateRef.current.setAttribute(
+        bounceAnimateRef.current?.removeAttribute('begin')
+        bounceAnimateRef.current?.setAttribute(
           'values',
-          bounceAnimateRef.current.getAttribute('values')?.split(';')[0] || '85',
+          bounceAnimateRef.current?.getAttribute('values')?.split(';')[0] || '85',
         )
       }
       refetchRecentMints()
@@ -171,13 +171,13 @@ const HomePage: NextPageWithLayout = () => {
               sx={{ borderRadius: 4 }}
               loading={nftOwnerDataLoading || estimatedMintFeeLoading}
             >
-              <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+              <Box sx={{ display: 'flex', flexDirection: 'row' }} component='div'>
                 <Typography fontSize='13px' color='primary' fontWeight='bold'>
                   {estimatedMintFee.substring(0, 10)} SEP •
                 </Typography>
                 &nbsp;
                 <Typography
-                  component={Link}
+                  component={Link as ElementRef<ElementType>}
                   href='/myNfts'
                   fontSize='13px'
                   color='primary'
@@ -231,12 +231,13 @@ const HomePage: NextPageWithLayout = () => {
         )}
       </Stack>
 
-      <Box>
+      <Box component='div'>
         <Typography fontSize='1.5rem' fontWeight='lg' sx={{ mb: 1 }}>
           Recent Mints
         </Typography>
         {(isRecentMintsLoading || recentMintsError) && (
           <Box
+            component='div'
             sx={{
               alignItems: 'center',
               display: 'flex',
@@ -254,6 +255,7 @@ const HomePage: NextPageWithLayout = () => {
 
       {/* following components are absolutely positioned 🤷‍ */}
       <Box
+        component='div'
         sx={{
           left: '50%',
           position: 'fixed',

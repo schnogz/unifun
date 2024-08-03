@@ -12,6 +12,7 @@ import {
   FormHelperText,
   Link,
 } from '@mui/joy'
+import { ElementRef, ElementType } from 'react'
 import { useForm } from 'react-hook-form'
 import { isAddress } from 'viem'
 import * as yup from 'yup'
@@ -81,6 +82,7 @@ export default function TransferNftModal({
             <>
               <Typography fontSize='1.25rem'>Transfer of #{tokenId} is in progress 🎉</Typography>
               <Box
+                component='div'
                 sx={{
                   display: 'flex',
                   flexDirection: 'row',
@@ -89,7 +91,7 @@ export default function TransferNftModal({
                 }}
               >
                 <Button
-                  component={Link}
+                  component={Link as ElementRef<ElementType>}
                   href={`${SEPOLIA_TX_BASE_URL}${txHash}`}
                   target='_blank'
                   data-testid='viewOnExplorerBtn'

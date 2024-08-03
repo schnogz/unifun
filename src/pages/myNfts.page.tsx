@@ -1,6 +1,7 @@
 import { Grid, Box, CircularProgress, Typography, Button } from '@mui/joy'
 import dayjs from 'dayjs'
 import Link from 'next/link'
+import { ElementRef, ElementType } from 'react'
 
 import NftCard from '@/components/NftCard'
 import { useFetchNftsForOwner } from '@/hooks/useFetchNftsForOwner'
@@ -15,6 +16,7 @@ const MyNftsPage: NextPageWithLayout = () => {
   if (isLoading || isError) {
     return (
       <Box
+        component='div'
         sx={{
           alignItems: 'center',
           display: 'flex',
@@ -30,9 +32,15 @@ const MyNftsPage: NextPageWithLayout = () => {
   }
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-      <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-        <Box sx={{ alignItems: 'flex-start', display: 'flex', flexDirection: 'column', mb: 4 }}>
+    <Box component='div' sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+      <Box
+        component='div'
+        sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}
+      >
+        <Box
+          component='div'
+          sx={{ alignItems: 'flex-start', display: 'flex', flexDirection: 'column', mb: 4 }}
+        >
           <Typography fontSize='x-large' color='primary' fontWeight='bolder'>
             You own {data?.totalCount} UNIFUN
           </Typography>
@@ -41,8 +49,8 @@ const MyNftsPage: NextPageWithLayout = () => {
           </Typography>
         </Box>
         {data?.totalCount && (
-          <Box>
-            <Button component={Link} href='/' size='lg' color='primary'>
+          <Box component='div'>
+            <Button component={Link as ElementRef<ElementType>} href='/' size='lg' color='primary'>
               Mint Again
             </Button>
           </Box>
@@ -59,6 +67,7 @@ const MyNftsPage: NextPageWithLayout = () => {
         </Grid>
       ) : (
         <Box
+          component='div'
           sx={{
             alignItems: 'center',
             display: 'flex',
@@ -71,7 +80,7 @@ const MyNftsPage: NextPageWithLayout = () => {
           <Typography fontSize='x-large' fontWeight='bolder'>
             Maybe you should mint one?
           </Typography>
-          <Button component={Link} href='/' size='lg' color='primary'>
+          <Button component={Link as ElementRef<ElementType>} href='/' size='lg' color='primary'>
             Mint Now
           </Button>
         </Box>
