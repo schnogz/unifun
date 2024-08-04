@@ -7,7 +7,6 @@ export const AppLayout = ({ children }: PropsWithChildren) => {
   return (
     <Box sx={{ display: 'flex', minHeight: '100dvh', overflow: 'hidden' }}>
       <Header />
-      {/*<Sidebar />*/}
       <Box
         component='main'
         className='MainContent'
