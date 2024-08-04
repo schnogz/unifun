@@ -10,7 +10,7 @@ import { NextPageWithLayout } from '@/types/layout'
 
 const currentDate = new Date()
 
-const MyNftsPage: NextPageWithLayout = () => {
+const CollectionPage: NextPageWithLayout = () => {
   const { data, isError, isLoading } = useFetchNftsForOwner()
 
   if (isLoading || isError) {
@@ -57,10 +57,10 @@ const MyNftsPage: NextPageWithLayout = () => {
         )}
       </Box>
 
-      {data?.ownedNfts.length ? (
+      {data?.ownedNfts?.length ? (
         <Grid container spacing={4} columns={12} sx={{ flexGrow: 1 }}>
           {data?.ownedNfts?.map((nft) => (
-            <Grid xs={12} sm={6} md={6} lg={4} xl={3} key={nft.tokenId}>
+            <Grid xs={12} sm={6} md={6} lg={4} xl={3} key={nft?.tokenId}>
               <NftDisplayCard {...nft} />
             </Grid>
           ))}
@@ -89,6 +89,6 @@ const MyNftsPage: NextPageWithLayout = () => {
   )
 }
 
-MyNftsPage.getLayout = (page) => <AppLayout>{page}</AppLayout>
+CollectionPage.getLayout = (page) => <AppLayout>{page}</AppLayout>
 
-export default MyNftsPage
+export default CollectionPage

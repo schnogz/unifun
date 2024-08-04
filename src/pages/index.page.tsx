@@ -86,7 +86,7 @@ const HomePage: NextPageWithLayout = () => {
               &nbsp;
               <Typography
                 component={Link as ElementRef<ElementType>}
-                href='/myNfts'
+                href='/collection'
                 fontSize='13px'
                 color='primary'
                 fontWeight='bold'
@@ -127,7 +127,7 @@ const HomePage: NextPageWithLayout = () => {
                   disabled={isMintDisabled}
                   loadingPosition='start'
                   color={'success'}
-                  onClick={() => router.push('/myNfts')}
+                  onClick={() => router.push('/collection')}
                   endDecorator={<PhotoLibraryRounded />}
                   sx={{ ml: 2 }}
                 >
