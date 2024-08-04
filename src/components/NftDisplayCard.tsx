@@ -15,7 +15,7 @@ import {
 } from '@mui/joy'
 import { OwnedNft } from 'alchemy-sdk'
 import dayjs from 'dayjs'
-import { ElementRef, ElementType, useState } from 'react'
+import { useState } from 'react'
 
 import TransferNftModal from '@/components/TransferNftModal'
 import { SEPOLIA_TX_BASE_URL } from '@/constants'
@@ -42,7 +42,7 @@ export default function NftDisplayCard(props: OwnedNft) {
           </Typography>
           <Typography
             fontSize='11px'
-            component={Link as ElementRef<ElementType>}
+            component={Link}
             href={`${SEPOLIA_TX_BASE_URL}${props.mint?.transactionHash}`}
             target='_blank'
             textColor='text.tertiary'

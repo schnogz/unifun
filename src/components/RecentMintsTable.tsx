@@ -1,7 +1,6 @@
 import { Box, Typography, Table, Link } from '@mui/joy'
 import { NftContractNftsResponse, Nft } from 'alchemy-sdk'
 import dayjs from 'dayjs'
-import { ElementRef, ElementType } from 'react'
 
 import { SEPOLIA_ADDRESS_BASE_URL, SEPOLIA_TX_BASE_URL } from '@/constants'
 import { truncateAddress } from '@/utils/address'
@@ -61,7 +60,7 @@ export const RecentMintsTable = ({ data }: { data: NftContractNftsResponse }) =>
                 <td>
                   <Typography
                     level='body-sm'
-                    component={Link as ElementRef<ElementType>}
+                    component={Link}
                     href={`${SEPOLIA_ADDRESS_BASE_URL}${nft.mint?.mintAddress ?? nft.to}`}
                     target='_blank'
                   >
@@ -71,7 +70,7 @@ export const RecentMintsTable = ({ data }: { data: NftContractNftsResponse }) =>
                 <td>
                   <Typography
                     level='body-sm'
-                    component={Link as ElementRef<ElementType>}
+                    component={Link}
                     href={`${SEPOLIA_TX_BASE_URL}${nft.mint?.transactionHash ?? nft.transactionHash}`}
                     target='_blank'
                   >

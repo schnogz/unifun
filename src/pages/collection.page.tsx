@@ -1,7 +1,6 @@
 import { Grid, Box, CircularProgress, Typography, Button } from '@mui/joy'
 import dayjs from 'dayjs'
 import Link from 'next/link'
-import { ElementRef, ElementType } from 'react'
 
 import NftDisplayCard from '@/components/NftDisplayCard'
 import { useFetchNftsForOwner } from '@/hooks/useFetchNftsForOwner'
@@ -50,7 +49,7 @@ const CollectionPage: NextPageWithLayout = () => {
         </Box>
         {data?.totalCount && (
           <Box component='div'>
-            <Button component={Link as ElementRef<ElementType>} href='/' size='lg' color='primary'>
+            <Button component={Link} href='/' size='lg' color='primary'>
               Mint Again
             </Button>
           </Box>
@@ -80,7 +79,7 @@ const CollectionPage: NextPageWithLayout = () => {
           <Typography fontSize='x-large' fontWeight='bolder'>
             Maybe you should mint one?
           </Typography>
-          <Button component={Link as ElementRef<ElementType>} href='/' size='lg' color='primary'>
+          <Button component={Link} href='/' size='lg' color='primary'>
             Mint Now
           </Button>
         </Box>

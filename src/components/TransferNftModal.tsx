@@ -12,7 +12,6 @@ import {
   FormHelperText,
   Link,
 } from '@mui/joy'
-import { ElementRef, ElementType } from 'react'
 import { useForm } from 'react-hook-form'
 import { isAddress } from 'viem'
 import * as yup from 'yup'
@@ -91,7 +90,7 @@ export default function TransferNftModal({
                 }}
               >
                 <Button
-                  component={Link as ElementRef<ElementType>}
+                  component={Link}
                   href={`${SEPOLIA_TX_BASE_URL}${txHash}`}
                   target='_blank'
                   data-testid='viewOnExplorerBtn'

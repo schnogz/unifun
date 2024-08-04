@@ -3,7 +3,7 @@ import { Button, Box, Container, Stack, Typography, CircularProgress } from '@mu
 import bigNumber from 'bignumber.js'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useState, ElementRef, ElementType } from 'react'
+import { useEffect, useState } from 'react'
 import { useReward } from 'react-rewards'
 import { useAccount, useBalance } from 'wagmi'
 import { sepolia } from 'wagmi/chains'
@@ -85,7 +85,7 @@ const HomePage: NextPageWithLayout = () => {
               </Typography>
               &nbsp;
               <Typography
-                component={Link as ElementRef<ElementType>}
+                component={Link}
                 href='/collection'
                 fontSize='13px'
                 color='primary'
