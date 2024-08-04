@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useWriteContract, useAccount, useWatchContractEvent } from 'wagmi'
+import { useAccount, useWatchContractEvent, useWriteContract } from 'wagmi'
 
 import { UNI_CONTRACT_ABI, UNI_CONTRACT_ADDRESS } from '@/constants'
 import { MintStatus } from '@/types/mint'
@@ -12,6 +12,16 @@ export const useMintNft = () => {
 
   const { data: txHash, error: txSendError, writeContract } = useWriteContract()
 
+  const finalizeMint = (tokenId: number) => {
+    setTokenId(tokenId)
+    setStatus(MintStatus.COMPLETED)
+
+    // reset mint status after 3 seconds
+    setTimeout(() => {
+      setStatus(MintStatus.NOT_STARTED)
+    }, 3_000)
+  }
+
   useWatchContractEvent({
     abi: UNI_CONTRACT_ABI,
     address: UNI_CONTRACT_ADDRESS,
@@ -23,8 +33,7 @@ export const useMintNft = () => {
     onLogs: (logs) => {
       logs.forEach(({ args }) => {
         if (args.to === address) {
-          setTokenId(Number(args.tokenId))
-          setStatus(MintStatus.COMPLETED)
+          finalizeMint(Number(args.tokenId))
         }
       })
     },
