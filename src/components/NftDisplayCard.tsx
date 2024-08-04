@@ -109,7 +109,7 @@ export default function NftDisplayCard(props: OwnedNft) {
           </Box>
         )}
 
-        {props.raw?.metadata?.attributes.length && (
+        {props.raw?.metadata?.attributes?.length && (
           <Box
             component='div'
             sx={{
