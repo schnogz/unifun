@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 import Link from 'next/link'
 import { ElementRef, ElementType } from 'react'
 
-import NftCard from '@/components/NftCard'
+import NftDisplayCard from '@/components/NftDisplayCard'
 import { useFetchNftsForOwner } from '@/hooks/useFetchNftsForOwner'
 import { AppLayout } from '@/layouts/AppLayout'
 import { NextPageWithLayout } from '@/types/layout'
@@ -61,7 +61,7 @@ const MyNftsPage: NextPageWithLayout = () => {
         <Grid container spacing={4} columns={12} sx={{ flexGrow: 1 }}>
           {data?.ownedNfts?.map((nft) => (
             <Grid xs={12} sm={6} md={6} lg={4} xl={3} key={nft.tokenId}>
-              <NftCard {...nft} />
+              <NftDisplayCard {...nft} />
             </Grid>
           ))}
         </Grid>

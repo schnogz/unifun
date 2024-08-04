@@ -1,16 +1,15 @@
 import { FavoriteBorderRounded, PhotoLibraryRounded } from '@mui/icons-material'
-import { Button, Box, Container, Stack, Card, Typography, CircularProgress } from '@mui/joy'
+import { Button, Box, Container, Stack, Typography, CircularProgress } from '@mui/joy'
 import bigNumber from 'bignumber.js'
-import classNames from 'classnames'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useRef, useState, ElementRef, ElementType } from 'react'
+import { useEffect, useState, ElementRef, ElementType } from 'react'
 import { useReward } from 'react-rewards'
 import { useAccount, useBalance } from 'wagmi'
 import { sepolia } from 'wagmi/chains'
 
-import { UnifunNft } from '@/assets/UnifunNft'
 import { Alert } from '@/components/Alert'
+import NftMintCard from '@/components/NftMintCard'
 import { RecentMintsTable } from '@/components/RecentMintsTable'
 import { useEstimateMintFee } from '@/hooks/useEstimateMintFee'
 import { useFetchNftsForOwner } from '@/hooks/useFetchNftsForOwner'
@@ -29,10 +28,8 @@ const HomePage: NextPageWithLayout = () => {
     chainId: sepolia.id,
   })
   const [mintCount, setMintCount] = useState<number>(0)
-
   const { data: nftOwnerData, refetchNftsForOwner } = useFetchNftsForOwner()
   const { estimatedMintFee } = useEstimateMintFee()
-
   const {
     data: recentMints,
     isError: recentMintsError,
@@ -40,13 +37,10 @@ const HomePage: NextPageWithLayout = () => {
     refetchRecentMints,
   } = useFetchRecentMints()
 
-  const initialAnimateRef = useRef<SVGAnimateElement | null>(null)
-  const bounceAnimateRef = useRef<SVGAnimateElement | null>(null)
   const hasInsufficientBalance =
     balance && estimatedMintFee
       ? new bigNumber(balance?.formatted).isLessThanOrEqualTo(new bigNumber(estimatedMintFee))
       : false
-
   const isNftOwnedLimitReached = (nftOwnerData?.totalCount ?? 0) >= 100
   const isMintDisabled =
     !address || chainId !== sepolia.id || isNftOwnedLimitReached || hasInsufficientBalance
@@ -63,34 +57,8 @@ const HomePage: NextPageWithLayout = () => {
   })
 
   useEffect(() => {
-    // start mint progress SVGs
-    if (mintStatus === MintStatus.PENDING_MINT) {
-      if (initialAnimateRef.current) {
-        initialAnimateRef.current?.beginElement()
-      }
-      setTimeout(() => {
-        if (bounceAnimateRef.current) {
-          bounceAnimateRef.current?.beginElement()
-        }
-      }, 15_000)
-    }
-
-    // hide mint progress SVGs and refetch recent mints upon new mint completion
+    // refetch data upon new mint completion
     if (mintStatus === MintStatus.COMPLETED) {
-      if (initialAnimateRef.current) {
-        initialAnimateRef.current?.removeAttribute('begin')
-        initialAnimateRef.current?.setAttribute(
-          'to',
-          initialAnimateRef.current?.getAttribute('from') || '1060',
-        )
-      }
-      if (bounceAnimateRef.current) {
-        bounceAnimateRef.current?.removeAttribute('begin')
-        bounceAnimateRef.current?.setAttribute(
-          'values',
-          bounceAnimateRef.current?.getAttribute('values')?.split(';')[0] || '85',
-        )
-      }
       refetchRecentMints()
       refetchNftsForOwner()
       showConfetti()
@@ -107,64 +75,7 @@ const HomePage: NextPageWithLayout = () => {
       }}
     >
       <Stack sx={{ alignItems: 'center', display: 'flex', gap: 2 }}>
-        <Card
-          className={classNames({ 'mint-complete-bg': mintStatus === MintStatus.COMPLETED })}
-          variant='plain'
-          sx={{
-            borderRadius: 0,
-            height: '250px',
-            mb: 1,
-            p: 0,
-
-            width: '250px',
-            'z-index': 999,
-          }}
-        >
-          <div className='mint-overlay-container'>
-            <UnifunNft isMinting={mintStatus === MintStatus.PENDING_MINT} />
-            <svg width='250' height='250' viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'>
-              <defs>
-                <mask id='mask'>
-                  <rect x='0' y='0' width='250' height='250' rx='46' fill='#fff' />
-                </mask>
-              </defs>
-              <rect
-                x='0'
-                y='0'
-                width='250'
-                height='250'
-                rx='46'
-                fill='none'
-                stroke='#FC72FF'
-                strokeWidth='18'
-                mask='url(#mask)'
-                strokeDasharray='1060'
-                strokeDashoffset='1060'
-              >
-                {/* normal progress bar up until about 85% complete until freeze */}
-                <animate
-                  ref={initialAnimateRef}
-                  attributeName='stroke-dashoffset'
-                  begin='indefinite'
-                  from='1060'
-                  to='212'
-                  dur='15s'
-                  fill='freeze'
-                />
-                {/* if mint is not complete yet, animate another progress bar near that bounces near completion */}
-                <animate
-                  ref={bounceAnimateRef}
-                  attributeName='stroke-dashoffset'
-                  begin='indefinite'
-                  values='212; 191; 212'
-                  keyTimes='0; 0.25; 1'
-                  dur='1s'
-                  repeatCount='indefinite'
-                />
-              </rect>
-            </svg>
-          </div>
-        </Card>
+        <NftMintCard mintStatus={mintStatus} />
 
         {mintStatus !== MintStatus.PENDING_TX_SEND && mintStatus !== MintStatus.PENDING_MINT && (
           <>

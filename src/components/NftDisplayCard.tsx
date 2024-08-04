@@ -20,7 +20,7 @@ import { ElementRef, ElementType, useState } from 'react'
 import TransferNftModal from '@/components/TransferNftModal'
 import { SEPOLIA_TX_BASE_URL } from '@/constants'
 
-export default function NftCard(props: OwnedNft) {
+export default function NftDisplayCard(props: OwnedNft) {
   const [isTransferModalOpen, setIsTransferModalOpen] = useState<boolean>(false)
 
   return (
