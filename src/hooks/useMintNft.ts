@@ -16,10 +16,10 @@ export const useMintNft = () => {
     setTokenId(tokenId)
     setStatus(MintStatus.COMPLETED)
 
-    // reset mint status after 3 seconds
+    // reset mint status after 6 seconds
     setTimeout(() => {
       setStatus(MintStatus.NOT_STARTED)
-    }, 3_000)
+    }, 6_000)
   }
 
   useWatchContractEvent({

@@ -1,20 +1,12 @@
 import { FavoriteBorderRounded, PhotoLibraryRounded } from '@mui/icons-material'
-import {
-  Button,
-  Box,
-  Container,
-  Stack,
-  Card,
-  Typography,
-  CircularProgress,
-  Skeleton,
-} from '@mui/joy'
+import { Button, Box, Container, Stack, Card, Typography, CircularProgress } from '@mui/joy'
+import bigNumber from 'bignumber.js'
 import classNames from 'classnames'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useRef, ElementRef, ElementType } from 'react'
+import { useEffect, useRef, useState, ElementRef, ElementType } from 'react'
 import { useReward } from 'react-rewards'
-import { useAccount } from 'wagmi'
+import { useAccount, useBalance } from 'wagmi'
 import { sepolia } from 'wagmi/chains'
 
 import { UnifunNft } from '@/assets/UnifunNft'
@@ -32,12 +24,14 @@ const HomePage: NextPageWithLayout = () => {
   const router = useRouter()
   const { mintError, mintNft, mintStatus } = useMintNft()
   const { address, chainId } = useAccount()
-  const {
-    data: nftOwnerData,
-    isLoading: nftOwnerDataLoading,
-    refetchNftsForOwner,
-  } = useFetchNftsForOwner()
-  const { estimatedMintFee, isLoading: estimatedMintFeeLoading } = useEstimateMintFee()
+  const { data: balance } = useBalance({
+    address,
+    chainId: sepolia.id,
+  })
+  const [mintCount, setMintCount] = useState<number>(0)
+
+  const { data: nftOwnerData, refetchNftsForOwner } = useFetchNftsForOwner()
+  const { estimatedMintFee } = useEstimateMintFee()
 
   const {
     data: recentMints,
@@ -48,8 +42,14 @@ const HomePage: NextPageWithLayout = () => {
 
   const initialAnimateRef = useRef<SVGAnimateElement | null>(null)
   const bounceAnimateRef = useRef<SVGAnimateElement | null>(null)
-  const isMintDisabled = !address || chainId !== sepolia.id
+  const hasInsufficientBalance =
+    balance && estimatedMintFee
+      ? new bigNumber(balance?.formatted).isLessThanOrEqualTo(new bigNumber(estimatedMintFee))
+      : false
+
   const isNftOwnedLimitReached = (nftOwnerData?.totalCount ?? 0) >= 100
+  const isMintDisabled =
+    !address || chainId !== sepolia.id || isNftOwnedLimitReached || hasInsufficientBalance
 
   const { reward: showConfetti } = useReward('newMintConfetti', 'emoji', {
     angle: 360,
@@ -94,6 +94,7 @@ const HomePage: NextPageWithLayout = () => {
       refetchRecentMints()
       refetchNftsForOwner()
       showConfetti()
+      setMintCount(mintCount + 1)
     }
   }, [mintStatus])
 
@@ -167,56 +168,62 @@ const HomePage: NextPageWithLayout = () => {
 
         {mintStatus !== MintStatus.PENDING_TX_SEND && mintStatus !== MintStatus.PENDING_MINT && (
           <>
-            <Skeleton
-              sx={{ borderRadius: 4 }}
-              loading={nftOwnerDataLoading || estimatedMintFeeLoading}
-            >
-              <Box sx={{ display: 'flex', flexDirection: 'row' }} component='div'>
-                <Typography fontSize='13px' color='primary' fontWeight='bold'>
-                  {estimatedMintFee.substring(0, 10)} SEP •
-                </Typography>
-                &nbsp;
-                <Typography
-                  component={Link as ElementRef<ElementType>}
-                  href='/myNfts'
-                  fontSize='13px'
-                  color='primary'
-                  fontWeight='bold'
-                  sx={{ textDecoration: 'none' }}
-                >
-                  {address && nftOwnerData?.totalCount ? nftOwnerData?.totalCount : '0'}
-                  /100 minted
-                </Typography>
-              </Box>
-            </Skeleton>
+            <Box sx={{ display: 'flex', flexDirection: 'row' }} component='div'>
+              <Typography fontSize='13px' color='primary' fontWeight='bold'>
+                {estimatedMintFee?.substring(0, 10)} ETH •
+              </Typography>
+              &nbsp;
+              <Typography
+                component={Link as ElementRef<ElementType>}
+                href='/myNfts'
+                fontSize='13px'
+                color='primary'
+                fontWeight='bold'
+                sx={{ textDecoration: 'none' }}
+              >
+                {address && nftOwnerData?.totalCount ? nftOwnerData?.totalCount : '0'}
+                /100 minted
+              </Typography>
+            </Box>
 
-            {isNftOwnedLimitReached ? (
+            {isNftOwnedLimitReached && (
               <Typography level='body-sm' lineHeight='1.5rem' textAlign='center'>
                 You have reached the maximum amount of NFTs owned. <br />
                 Thanks for supporting us! ❤️
               </Typography>
-            ) : (
+            )}
+
+            {hasInsufficientBalance && (
+              <Typography level='body-sm' lineHeight='1.5rem' textAlign='center' color='danger'>
+                This account does not have enough ETH to mint
+              </Typography>
+            )}
+
+            <Box component='div'>
               <Button
                 size='lg'
                 disabled={isMintDisabled}
                 loadingPosition='start'
-                color={mintStatus === MintStatus.COMPLETED ? 'success' : 'primary'}
-                onClick={() =>
-                  mintStatus === MintStatus.COMPLETED ? router.push('/myNfts') : mintNft()
-                }
-                endDecorator={
-                  mintStatus === MintStatus.COMPLETED ? (
-                    <PhotoLibraryRounded />
-                  ) : (
-                    <FavoriteBorderRounded />
-                  )
-                }
+                color={'primary'}
+                onClick={() => mintNft()}
+                endDecorator={<FavoriteBorderRounded />}
               >
-                {(mintStatus === MintStatus.NOT_STARTED || mintStatus === MintStatus.ERROR) &&
-                  'Mint'}
-                {mintStatus === MintStatus.COMPLETED && 'View NFT'}
+                {mintCount === 0 ? 'Mint' : 'Mint Again'}
               </Button>
-            )}
+              {mintCount > 0 && (
+                <Button
+                  size='lg'
+                  disabled={isMintDisabled}
+                  loadingPosition='start'
+                  color={'success'}
+                  onClick={() => router.push('/myNfts')}
+                  endDecorator={<PhotoLibraryRounded />}
+                  sx={{ ml: 2 }}
+                >
+                  View NFTs
+                </Button>
+              )}
+            </Box>
           </>
         )}
         {mintStatus === MintStatus.PENDING_TX_SEND && (

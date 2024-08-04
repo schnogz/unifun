@@ -13,7 +13,7 @@ export const useEstimateMintFee = () => {
     if (address) {
       const functionData = encodeFunctionData({
         abi: UNI_CONTRACT_ABI,
-        args: [address],
+        args: [address ?? NULL_ADDRESS],
         functionName: 'mint',
       })
       setFunctionData(functionData)
