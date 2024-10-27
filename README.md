@@ -37,11 +37,11 @@ Test coverage can be viewed by running the tests and then viewing `./coverage/in
 
 ## App Overview
 ### Major Dependencies
-`NextJs`, `MUI Joy`, `Wagmi`, `Viem`, `RainbowKit`, `React-Query`
+[NextJs](https://nextjs.org/), [MUI Joy](https://mui.com/joy-ui/getting-started/), [Wagmi](https://wagmi.sh/), [Viem](https://viem.sh/), [RainbowKit`](https://www.rainbowkit.com/), [React-Query](https://tanstack.com/query/latest/docs/framework/react/overview)
 
-### Alchemy RPC
-Public RPCs are too unreliable when listening for contract events and/or querying historical chain data.
-Alchemy exposes some nice NFT APIs that I used to fetch NFT metadata. I used a personal key for the API access.
+### Blockchain Interactions
+This app uses a private [Alchemy RPC](https://www.alchemy.com/dapps/alchemy) to fetch data from and write contract data to the Sepolia testnet.
+Public RPCs are too unreliable when listening for contract events and/or querying historical chain data. I used a personal key for the API access (please dont steal).
 
 ### NFT Minting/Transferring
 This app is able to both mint and transfer Uniswap's ERC721 NFT on the Sepolia testnet.
